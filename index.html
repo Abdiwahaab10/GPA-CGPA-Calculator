@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPA & CGPA Calculator</title>
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- jsPDF for PDF generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <!-- SheetJS for Excel generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <img src="images/cym.png" alt="Logo">
+            </div>
+            <div class="header-text">
+                <h1>GPA & CGPA Calculator</h1>
+                <p>Easily calculate your GPA and CGPA for multiple semesters with our intuitive and modern tool.</p>
+            </div>
+            <div class="social-icons">
+                <a href="https://facebook.com" target="_blank" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                <a href="https://twitter.com" target="_blank" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="https://instagram.com/man_abdi22?igshid=NTc4MTIwNjQ2YQ==" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.snapchat.com/add/abdiwahab_i" target="_blank"><i class="fab fa-snapchat-ghost"></i></a>
+                <a href="https://wa.me/+252636430464" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+            </div>
+        </div>
+        <nav>
+            <button class="menu-toggle" aria-label="Toggle menu">&#9776;</button>
+            <div class="nav-links">
+                <button class="close-menu" aria-label="Close menu">&#10005;</button>
+                <a href="#calculator">Calculator</a>
+                <a href="#features">Features</a>
+                <a href="blogs/blog.html">Blog</a>
+                <a href="#gallery">Gallery</a>
+                <a href="#about">About</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- About Section -->
+    <section id="about" class="container">
+        <div class="about">
+            <h2>About</h2>
+            <p>
+                The GPA & CGPA Calculator is a modern and intuitive tool designed to help students easily calculate their GPA (Grade Point Average) and CGPA (Cumulative Grade Point Average). Whether you're managing a single semester or multiple semesters, this tool provides accurate results based on your university's grading system. Our goal is to simplify academic tracking and help students achieve their academic goals.
+            </p>
+        </div>
+    </section>
+
+    <!-- Calculator Section -->
+    <section id="calculator" class="container">
+        <div class="calculator">
+            <h2>Calculate Your GPA</h2>
+            <form id="gpaForm">
+                <div id="courses">
+                    <div class="course">
+                        <button type="button" class="delete-btn" onclick="deleteCourse(this)"><i class="fas fa-trash"></i></button>
+                        <input type="number" placeholder="Percentage" min="0" max="100" required>
+                    </div>
+                </div>
+                <button type="button" onclick="addCourse()">Add Course</button>
+                <button type="submit">Calculate GPA</button>
+                <button type="button" id="clearBtn">Clear</button>
+                <div class="result" id="gpaResult"></div>
+                <div id="message"></div>
+            </form>
+
+            <!-- Download Section -->
+            <!-- <div class="download-section" id="downloadSection" style="display: none;">
+                <h3>Download Results</h3>
+                <button onclick="downloadPDF()">Download as PDF</button>
+                <button onclick="downloadWord()">Download as Word</button>
+                <button onclick="downloadExcel()">Download as Excel</button>
+            </div> -->
+        </div> 
+
+
+        <!-- CGPA Calculator -->
+        <div class="calculator" style="margin-top: 2rem;">
+            <h2>Calculate Your CGPA</h2>
+            <form id="cgpaForm">
+                <div id="semesters">
+                    <div class="semester">
+                        <input type="number" placeholder="GPA for Semester 1" min="0" max="4" step="0.01" required>
+                    </div>
+                </div>
+                <button type="button" onclick="addSemester()">Add Semester</button>
+                <button type="submit">Calculate CGPA</button>
+                <div class="result" id="cgpaResult"></div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="container">
+        <div class="features">
+            <div class="feature">
+                <h3>Easy to Use</h3>
+                <p>Intuitive interface designed for students to calculate GPA and CGPA effortlessly.</p>
+            </div>
+            <div class="feature">
+                <h3>Accurate Results</h3>
+                <p>Get precise GPA and CGPA calculations based on your university's grading system.</p>
+            </div>
+            <div class="feature">
+                <h3>Multi-Semester Support</h3>
+                <p>Calculate CGPA for multiple semesters with ease.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Partners Section -->
+    <section id="partners" class="container">
+        <div class="partners">
+            <h2>Our Partners</h2>
+            <div class="partners-grid">
+                <img src="images/uohlogo.png" alt="University of Hargeisa">
+                <img src="images/gollis.jpeg" alt="Gollis University">
+                <img src="images/camuud.jpeg" alt="Camuud University">
+                <img src="images/admas.jpeg" alt="Admas University">
+                <img src="images/abaarsotech.png" alt="Abaarso Tech University">
+                <img src="images/burco.png" alt="Burco University">
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="container">
+        <div class="gallery">
+            <h2>Gallery</h2>
+            <div class="gallery-slider" id="gallerySlider">
+                <div class="slide">
+                    <img src="images/Happy.jpg" alt="Gallery Image 1">
+                    <div class="slide-overlay">
+                        <h3>Happy Moments</h3>
+                        <p>Celebrating academic success with friends and family.</p>
+                    </div>
+                </div>
+                <div class="slide">
+                    <img src="images/yes.jpg" alt="Gallery Image 2">
+                    <div class="slide-overlay">
+                        <h3>Teamwork</h3>
+                        <p>Collaborating on projects and achieving goals together.</p>
+                    </div>
+                </div>
+                <div class="slide">
+                    <img src="images/graduation.jpg" alt="Gallery Image 3">
+                    <div class="slide-overlay">
+                        <h3>Graduation Day</h3>
+                        <p>The culmination of hard work and dedication.</p>
+                    </div>
+                </div>
+                <div class="slide">
+                    <img src="images/gpa.jpg" alt="Gallery Image 4">
+                    <div class="slide-overlay">
+                        <h3>Academic Excellence</h3>
+                        <p>Striving for the best grades and achievements.</p>
+                    </div>
+                </div>
+                <div class="slide">
+                    <img src="images/cgpac.webp" alt="Gallery Image 5">
+                    <div class="slide-overlay">
+                        <h3>Planning Ahead</h3>
+                        <p>Calculating CGPA to plan for future semesters.</p>
+                    </div>
+                </div>
+                <div class="slide">
+                    <img src="images/student.jpg" alt="Gallery Image 6">
+                    <div class="slide-overlay">
+                        <h3>Student Life</h3>
+                        <p>Balancing studies, fun, and personal growth.</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Navigation Arrows -->
+            <button class="gallery-arrow prev" onclick="prevSlide()">&#10094;</button>
+            <button class="gallery-arrow next" onclick="nextSlide()">&#10095;</button>
+            <!-- Dots Indicator -->
+            <div class="dots-container" id="dotsContainer"></div>
+        </div>
+    </section>
+
+    <!-- Blog Section -->
+    <section id="blog" class="container">
+        <div class="blog">
+            <h2>Blog</h2>
+            <div class="blog-grid">
+                <!-- Blog Post 1 -->
+                <div class="blog-post">
+                    <img src="images/gpa.jpg" alt="Blog Post 1">
+                    <h3>How to Improve Your GPA</h3>
+                    <p>Learn effective strategies to boost your GPA and achieve academic success.</p>
+                    <a href="blogs/blog-post-1.html" class="read-more">Read More</a>
+                </div>
+                <!-- Blog Post 2 -->
+                <div class="blog-post">
+                    <img src="images/student.jpg" alt="Blog Post 2">
+                    <h3>Study Tips for Students</h3>
+                    <p>Explore proven study techniques to enhance your learning and performance.</p>
+                    <a href="blogs/blog-post-3.html" class="read-more">Read More</a>
+                </div>
+                <!-- Blog Post 3 -->
+                <div class="blog-post">
+                    <img src="images/cgpac.webp" alt="Blog Post 3">
+                    <h3>Understanding CGPA Calculation</h3>
+                    <p>Everything you need to know about calculating and improving your CGPA.</p>
+                    <a href="blogs/blog-post-2.html" class="read-more">Read More</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- User Reviews Section -->
+    <section id="user-reviews" class="container">
+        <div class="user-reviews">
+            <h2>User Reviews</h2>
+            <div class="reviews-grid">
+                <div class="review-item">
+                    <img src="images/kph3.jpg" alt="User 1">
+                    <h3>Khadar Faysal</h3>
+                    <div class="rating">★★★★★</div>
+                    <p>This GPA calculator is amazing! It helped me track my grades easily.</p>
+                </div>
+                <div class="review-item">
+                    <img src="images/sharmaake.jpg" alt="User 2">
+                    <h3>Sharmake Fuaad</h3>
+                    <div class="rating">★★★★☆</div>
+                    <p>Very useful tool for students. The interface is simple and intuitive.</p>
+                </div>
+                <div class="review-item">
+                    <img src="images/abdiPL.jpg" alt="User 3">
+                    <h3>Abdiwahaab Yusuf</h3>
+                    <div class="rating">★★★★★</div>
+                    <p>I love the multi-semester support feature. It makes calculating CGPA so easy!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="#calculator">Calculator</a>
+                <a href="#features">Features</a>
+                <a href="blogs/blog.html">Blog</a>
+                <a href="#gallery">Gallery</a>
+                <a href="#about">About</a>
+            </div>
+            <div class="social-icons">
+                <a href="https://facebook.com" target="_blank" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                <a href="https://twitter.com" target="_blank" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="https://instagram.com/man_abdi22?igshid=NTc4MTIwNjQ2YQ==" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.snapchat.com/add/abdiwahab_i" target="_blank"><i class="fab fa-snapchat-ghost"></i></a>
+                <a href="https://wa.me/+252636430464" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+            </div>
+        </div>
+        <p>&copy; 2025 GPA Calculator. All rights reserved. | <a href="#">Privacy Policy</a></p>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button id="scrollToTopBtn" aria-label="Scroll to top">
+        <img src="images/up-arrow.png" alt="Up Arrow" width="32" height="32">
+    </button>
+
+    <!-- JavaScript -->
+<script src="scripts.js"></script>
+
+            
+</body>
+</html>

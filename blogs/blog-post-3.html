@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Tips for Students</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Merriweather:wght@700&display=swap" rel="stylesheet">
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9fafb;
+            color: #333;
+            line-height: 1.8;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Merriweather', serif;
+            font-weight: 700;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            animation: fadeInDown 1s ease;
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            margin-top: 1rem;
+            border-radius: 8px;
+        }
+
+        nav a {
+            margin: 0 1.5rem;
+            color: white;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: #ffdd57;
+        }
+
+        /* Container */
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        /* Blog Post Content */
+        .blog-post img {
+            width: 100%;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .blog-post h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: #333;
+        }
+
+        .blog-post p {
+            font-size: 1.1rem;
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Footer */
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+        }
+
+        footer a {
+            color: #6a11cb;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: #2575fc;
+            text-decoration: underline;
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <h1>Study Tips for Students</h1>
+        <nav>
+            <a href="/index.html">Home</a>
+            <a href="blog.html">Blog</a>
+        </nav>
+    </header>
+
+    <!-- Blog Post Content -->
+    <div class="container">
+        <div class="blog-post">
+            <img src="/images/studenthelp.jpg" alt="Study Tips for Students">
+            <h2>Study Tips for Students</h2>
+            <p>
+                Effective studying is key to academic success. Here are some proven study techniques to help you maximize your learning:
+            </p>
+            <ul>
+                <li><strong>Set clear goals:</strong> Define what you want to achieve in each study session.</li>
+                <li><strong>Use active learning:</strong> Engage with the material by summarizing, questioning, and teaching it to others.</li>
+                <li><strong>Take regular breaks:</strong> Use techniques like the Pomodoro Technique to maintain focus.</li>
+                <li><strong>Create a study-friendly environment:</strong> Find a quiet, well-lit space free from distractions.</li>
+                <li><strong>Practice regularly:</strong> Consistent practice helps reinforce learning and improve retention.</li>
+            </ul>
+            <p>
+                By incorporating these tips into your routine, you can enhance your learning experience and achieve better results.
+            </p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2023 GPA Calculator. All rights reserved. | <a href="#">Privacy Policy</a></p>
+    </footer>
+</body>
+</html>
