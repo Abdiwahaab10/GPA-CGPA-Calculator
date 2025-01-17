@@ -130,3 +130,16 @@ window.addEventListener('scroll', () => {
 scrollToTopBtn.addEventListener('click', () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 });
+
+// Hamburger Menu Toggle
+const menuToggle = document.querySelector('.menu-toggle');
+const closeMenu = document.querySelector('.close-menu');
+const navLinks = document.querySelector('.nav-links');
+
+menuToggle.addEventListener('click', () => {
+    navLinks.classList.add('active');
+});
+
+closeMenu.addEventListener('click', () => {
+    navLinks.classList.remove('active');
+});
