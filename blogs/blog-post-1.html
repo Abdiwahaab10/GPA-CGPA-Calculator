@@ -3,21 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>How to Improve Your GPA</title>
+    <title>How to Improve Your GPA - GPA Calculator</title>
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Merriweather:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* General Styles */
-        body {
-            font-family: 'Poppins', sans-serif;
+        :root {
+            --primary-color: #6a11cb;
+            --secondary-color: #2575fc;
+            --accent-color: #ffdd57;
+            --text-color: #333;
+            --light-text: #666;
+            --lighter-text: #888;
+            --background: #f9fafb;
+            --card-bg: #fff;
+            --border-radius: 12px;
+            --transition: all 0.3s ease;
+            --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
             margin: 0;
             padding: 0;
-            background-color: #f9fafb;
-            color: #333;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background);
+            color: var(--text-color);
             line-height: 1.8;
         }
 
-        h1, h2, h3 {
+        h1, h2, h3, h4 {
             font-family: 'Merriweather', serif;
             font-weight: 700;
         }
@@ -25,113 +44,634 @@
         a {
             text-decoration: none;
             color: inherit;
+            transition: var(--transition);
         }
 
-        /* Header */
+        img {
+            max-width: 100%;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Header & Navigation */
         header {
-            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: white;
-            padding: 3rem 2rem;
+            padding: 1.5rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .logo i {
+            font-size: 1.8rem;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav ul li a {
+            position: relative;
+            font-weight: 500;
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--accent-color);
+            transition: var(--transition);
+        }
+
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+
+        .mobile-toggle {
+            display: none;
+            font-size: 1.5rem;
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+
+        .close-menu {
+            display: none; /* Hide by default on all screen sizes */
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 4rem 0;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/images/reading.jpg');
+            background-size: cover;
+            background-position: center;
+            color: white;
             text-align: center;
-            clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
         }
 
-        header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            animation: fadeInDown 1s ease;
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
         }
 
-        /* Navigation */
-        nav {
+        .hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.3;
+        }
+
+        .post-meta {
             display: flex;
             justify-content: center;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 1rem;
-            margin-top: 1rem;
+            gap: 1.5rem;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+
+        .post-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Article */
+        .article-container {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 3rem;
+            margin: 4rem auto;
+        }
+
+        .article-content {
+            background: white;
+            padding: 3rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        .article-image {
+            margin-bottom: 2rem;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+        }
+
+        .article-image img {
+            width: 100%;
+            height: auto;
+        }
+
+        .article-content h2 {
+            font-size: 2rem;
+            margin: 2rem 0 1.2rem;
+            color: var(--text-color);
+        }
+
+        .article-content p {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+            color: var(--light-text);
+            line-height: 1.8;
+        }
+
+        .article-content ul, .article-content ol {
+            margin: 1.5rem 0 2rem 2rem;
+        }
+
+        .article-content li {
+            margin-bottom: 0.8rem;
+            font-size: 1.1rem;
+            color: var(--light-text);
+        }
+
+        .article-content a {
+            color: var(--primary-color);
+            border-bottom: 1px solid transparent;
+        }
+
+        .article-content a:hover {
+            border-bottom-color: var(--primary-color);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: sticky;
+            top: 100px;
+        }
+
+        .sidebar-widget {
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            margin-bottom: 2rem;
+        }
+
+        .sidebar-widget h3 {
+            margin-bottom: 1.2rem;
+            font-size: 1.3rem;
+            position: relative;
+            padding-bottom: 0.7rem;
+        }
+
+        .sidebar-widget h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background: var(--primary-color);
+        }
+
+        .recent-posts-list {
+            list-style: none;
+        }
+
+        .recent-posts-list li {
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .recent-posts-list li:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .recent-posts-list a {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .recent-posts-list img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
             border-radius: 8px;
         }
 
-        nav a {
-            margin: 0 1.5rem;
+        .recent-posts-list h4 {
+            font-size: 1rem;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .recent-posts-list a:hover h4 {
+            color: var(--primary-color);
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .tag {
+            padding: 0.4rem 0.8rem;
+            background: #f0f0f0;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            transition: var(--transition);
+        }
+
+        .tag:hover {
+            background: var(--primary-color);
             color: white;
-            font-weight: bold;
-            transition: color 0.3s ease;
         }
 
-        nav a:hover {
-            color: #ffdd57;
+        /* Share Section */
+        .share-section {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
 
-        /* Container */
-        .container {
-            max-width: 800px;
-            margin: 2rem auto;
-            padding: 0 1rem;
+        .share-title {
+            font-weight: 600;
+            color: var(--text-color);
         }
 
-        /* Blog Post Content */
-        .blog-post img {
-            width: 100%;
-            border-radius: 12px;
+        .share-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .share-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: #f0f0f0;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+
+        .share-button.facebook:hover {
+            background: #3b5998;
+            color: white;
+        }
+
+        .share-button.twitter:hover {
+            background: #1da1f2;
+            color: white;
+        }
+
+        .share-button.pinterest:hover {
+            background: #bd081c;
+            color: white;
+        }
+
+        .share-button.linkedin:hover {
+            background: #0077b5;
+            color: white;
+        }
+
+        /* Related Posts */
+        .related-posts {
+            margin-top: 4rem;
+        }
+
+        .related-posts h2 {
+            font-size: 1.8rem;
             margin-bottom: 2rem;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: relative;
+            padding-bottom: 0.7rem;
         }
 
-        .blog-post h2 {
-            font-size: 2rem;
-            margin-bottom: 1.5rem;
-            color: #333;
+        .related-posts h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: var(--primary-color);
         }
 
-        .blog-post p {
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .related-post {
+            background: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+        }
+
+        .related-post:hover {
+            transform: translateY(-10px);
+        }
+
+        .related-post-image {
+            height: 180px;
+            overflow: hidden;
+        }
+
+        .related-post-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .related-post:hover .related-post-image img {
+            transform: scale(1.05);
+        }
+
+        .related-post-content {
+            padding: 1.2rem;
+        }
+
+        .related-post h3 {
             font-size: 1.1rem;
-            color: #555;
-            line-height: 1.8;
-            margin-bottom: 1.5rem;
-        }
-
-        .blog-post ul {
-            list-style-type: disc;
-            margin-left: 2rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .blog-post ul li {
-            font-size: 1.1rem;
-            color: #555;
             margin-bottom: 0.5rem;
+            line-height: 1.4;
+        }
+
+        .read-more {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            font-size: 0.9rem;
+            color: var(--primary-color);
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .read-more:hover {
+            gap: 0.5rem;
+        }
+
+        /* Newsletter */
+        .newsletter {
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: var(--border-radius);
+            text-align: center;
+            margin: 4rem 0;
+        }
+
+        .newsletter h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .newsletter p {
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            opacity: 0.9;
+        }
+
+        .newsletter-form {
+            display: flex;
+            max-width: 500px;
+            margin: 0 auto;
+            overflow: hidden;
+            border-radius: 50px;
+        }
+
+        .newsletter-form input {
+            flex-grow: 1;
+            padding: 1rem 1.5rem;
+            border: none;
+            font-size: 1rem;
+        }
+
+        .newsletter-form input:focus {
+            outline: none;
+        }
+
+        .newsletter-form button {
+            padding: 1rem 1.5rem;
+            background: var(--accent-color);
+            color: var(--text-color);
+            font-weight: 600;
+            border: none;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .newsletter-form button:hover {
+            background: #ffeb7d;
         }
 
         /* Footer */
         footer {
             background: #333;
             color: white;
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-col h4 {
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+            position: relative;
+        }
+
+        .footer-col h4::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background: var(--primary-color);
+        }
+
+        .footer-col p {
+            margin-bottom: 1rem;
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-col ul li a {
+            opacity: 0.8;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        .footer-col ul li a:hover {
+            opacity: 1;
+            color: var(--secondary-color);
+            padding-left: 5px;
+        }
+
+        .footer-col .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .footer-col .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transition: var(--transition);
+        }
+
+        .footer-col .social-links a:hover {
+            background: var(--primary-color);
+            transform: translateY(-5px);
+        }
+
+        .copyright {
             text-align: center;
-            padding: 2rem;
-            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            opacity: 0.7;
         }
 
-        footer a {
-            color: #6a11cb;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        footer a:hover {
-            color: #2575fc;
-            text-decoration: underline;
-        }
-
-        /* Animations */
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
+        /* Media Queries */
+        @media (max-width: 992px) {
+            .article-container {
+                grid-template-columns: 1fr;
             }
-            to {
-                opacity: 1;
-                transform: translateY(0);
+
+            .sidebar {
+                position: static;
+                margin-top: 2rem;
+            }
+
+            .related-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .article-content {
+                padding: 2rem;
+            }
+
+            .related-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header-container {
+                position: relative; /* Add position relative for absolute positioning context */
+                padding: 0 1rem; /* Add padding for better spacing */
+            }
+
+            .mobile-toggle {
+                display: block;
+                position: absolute; /* Position absolutely */
+                right: 1rem; /* Position at the right edge with padding */
+                top: 50%; /* Center vertically */
+                transform: translateY(-50%); /* Perfect vertical centering */
+            }
+
+            nav ul {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 70%;
+                height: 100vh;
+                background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+                flex-direction: column;
+                justify-content: center;
+                gap: 2rem;
+                padding: 2rem;
+                transition: var(--transition);
+                z-index: 101;
+            }
+
+            nav ul.active {
+                right: 0;
+            }
+
+            .close-menu {
+                display: none; /* Still hidden by default */
+                position: absolute;
+                top: 2rem;
+                right: 2rem;
+            }
+
+            /* Only show close button when menu is active */
+            nav ul.active .close-menu {
+                display: block;
+            }
+
+            .post-meta {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+
+        /* Extra small screens */
+        @media (max-width: 480px) {
+            .header-container {
+                padding: 0 0.5rem; /* Smaller padding on very small screens */
+            }
+
+            nav ul {
+                width: 80%; /* Wider menu on very small screens */
             }
         }
     </style>
@@ -139,37 +679,297 @@
 <body>
     <!-- Header -->
     <header>
-        <h1>How to Improve Your GPA</h1>
+        <div class="container header-container">
+            <a href="/index.html" class="logo">
+                <i class="fas fa-calculator"></i>
+                <span>GPA Calculator</span>
+            </a>
+            <button class="mobile-toggle" aria-label="Toggle menu">
+                <i class="fas fa-bars"></i>
+            </button>
         <nav>
-            <a href="/index.html">Home</a>
-            <a href="blog.html">Blog</a>
+                <ul>
+                    <li><a href="/index.html">Home</a></li>
+                    <li><a href="/index.html#calculator">Calculator</a></li>
+                    <li><a href="/index.html#features">Features</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="/index.html#about">About</a></li>
+                    <button class="close-menu"><i class="fas fa-times"></i></button>
+                </ul>
         </nav>
+        </div>
     </header>
 
-    <!-- Blog Post Content -->
-    <div class="container">
-        <div class="blog-post">
-            <img src="/images/reading.jpg" alt="How to Improve Your GPA">
-            <h2>How to Improve Your GPA</h2>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container hero-content">
+            <h1>How to Improve Your GPA: Proven Strategies</h1>
+            <div class="post-meta">
+                <span><i class="far fa-calendar"></i> May 15, 2024</span>
+                <span><i class="far fa-user"></i> By Admin</span>
+                <span><i class="far fa-folder"></i> Study Tips</span>
+                <span><i class="far fa-clock"></i> 7 min read</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container article-container">
+        <!-- Article Content -->
+        <main class="article-content">
+            <div class="article-image">
+                <img src="/images/reading.jpg" alt="Student studying to improve GPA">
+            </div>
+
             <p>
-                Improving your GPA requires a combination of effective study habits, time management, and a positive mindset. Here are some proven strategies:
+                Improving your GPA requires a combination of effective study habits, time management, and a positive mindset. Whether you're looking to boost your current grades or maintain your academic standing, these strategies can help you achieve your goals.
+            </p>
+
+            <h2>Understanding Your Current Standing</h2>
+            <p>
+                Before making a plan to improve your GPA, it's important to understand where you currently stand. Calculate your current GPA using our <a href="/index.html#calculator">GPA Calculator</a> and identify which courses are having the biggest impact on your overall average.
+            </p>
+            <p>
+                Focus on courses where improvement would have the greatest effect on your overall GPA. For example, improving from a C to a B in a 4-credit course will have more impact than making the same improvement in a 2-credit course.
+            </p>
+
+            <h2>Effective Study Strategies</h2>
+            <p>
+                Research shows that using effective study techniques can significantly improve academic performance. Here are some evidence-based strategies:
             </p>
             <ul>
-                <li><strong>Attend all your classes:</strong> Regular attendance ensures you don't miss important lectures or assignments.</li>
-                <li><strong>Create a study schedule:</strong> Plan your study sessions and stick to them consistently.</li>
-                <li><strong>Seek help when needed:</strong> Don't hesitate to ask professors or tutors for clarification on difficult topics.</li>
-                <li><strong>Stay organized:</strong> Use planners or apps to keep track of deadlines and assignments.</li>
-                <li><strong>Take care of your health:</strong> A healthy body and mind are essential for academic success.</li>
+                <li><strong>Spaced practice:</strong> Instead of cramming, spread out your study sessions over time. This approach helps with long-term retention.</li>
+                <li><strong>Active recall:</strong> Test yourself on material rather than simply re-reading it. This forces your brain to retrieve information, strengthening memory.</li>
+                <li><strong>Interleaved practice:</strong> Mix up different topics or problem types during a study session. Though more challenging, this improves ability to discriminate between concepts.</li>
+                <li><strong>Elaboration:</strong> Ask "why" and "how" questions about the material and connect new information to what you already know.</li>
+                <li><strong>Concrete examples:</strong> Apply abstract concepts to concrete scenarios to deepen understanding.</li>
             </ul>
+
+            <h2>Time Management Techniques</h2>
             <p>
-                By following these tips, you can boost your GPA and achieve your academic goals. Remember, consistency and dedication are key!
+                Effective time management is crucial for academic success. Try these techniques:
             </p>
+            <ul>
+                <li><strong>Create a study schedule:</strong> Plan your study sessions in advance, allocating more time to challenging subjects.</li>
+                <li><strong>Use the Pomodoro Technique:</strong> Study in focused 25-minute intervals followed by 5-minute breaks.</li>
+                <li><strong>Prioritize tasks:</strong> Focus on high-impact activities that will most improve your grades.</li>
+                <li><strong>Eliminate distractions:</strong> Turn off notifications on your devices and find a quiet study environment.</li>
+                <li><strong>Set specific goals:</strong> Instead of "study biology," set concrete goals like "complete 20 practice problems on cellular respiration."</li>
+            </ul>
+
+            <h2>Seeking Help When Needed</h2>
+            <p>
+                Don't hesitate to ask for help when you're struggling. Resources available at most universities include:
+            </p>
+            <ul>
+                <li><strong>Professor office hours:</strong> Use these to clarify concepts and get personalized guidance.</li>
+                <li><strong>Tutoring services:</strong> Many universities offer free tutoring for challenging courses.</li>
+                <li><strong>Study groups:</strong> Collaborating with peers can provide different perspectives on difficult material.</li>
+                <li><strong>Academic advisors:</strong> They can help with course selection and academic planning.</li>
+                <li><strong>Online resources:</strong> Platforms like Khan Academy, Coursera, and YouTube can provide alternative explanations.</li>
+            </ul>
+
+            <h2>Taking Care of Your Well-being</h2>
+            <p>
+                Your physical and mental health significantly impact your academic performance:
+            </p>
+            <ul>
+                <li><strong>Get adequate sleep:</strong> Aim for 7-9 hours per night. Sleep deprivation impairs cognitive function.</li>
+                <li><strong>Exercise regularly:</strong> Physical activity improves cognitive function and reduces stress.</li>
+                <li><strong>Eat nutritious foods:</strong> Your brain needs proper nutrition to function optimally.</li>
+                <li><strong>Practice stress management:</strong> Techniques like deep breathing, meditation, or yoga can help manage academic stress.</li>
+                <li><strong>Maintain social connections:</strong> Balancing academics with social activities is important for overall well-being.</li>
+            </ul>
+
+            <h2>Long-term Strategies</h2>
+            <p>
+                Improving your GPA is a marathon, not a sprint. Consider these long-term strategies:
+            </p>
+            <ul>
+                <li><strong>Take advantage of grade replacement policies:</strong> Some universities allow you to retake courses and replace the original grade.</li>
+                <li><strong>Balance your course load:</strong> Combine challenging courses with those you expect to do well in.</li>
+                <li><strong>Develop relationships with professors:</strong> They can provide valuable guidance and may be more understanding if issues arise.</li>
+                <li><strong>Regularly review your progress:</strong> Continuously monitor your grades and adjust your strategies as needed.</li>
+            </ul>
+
+            <p>
+                Remember that improving your GPA takes time and consistent effort. Be patient with yourself and celebrate small victories along the way. With the right strategies and dedication, you can achieve your academic goals.
+            </p>
+
+            <!-- Share Section -->
+            <div class="share-section">
+                <span class="share-title">Share this article:</span>
+                <div class="share-buttons">
+                    <a href="#" class="share-button facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="share-button twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="share-button pinterest"><i class="fab fa-pinterest-p"></i></a>
+                    <a href="#" class="share-button linkedin"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </main>
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <!-- Recent Posts Widget -->
+            <div class="sidebar-widget">
+                <h3>Recent Posts</h3>
+                <ul class="recent-posts-list">
+                    <li>
+                        <a href="blog-post-2.html">
+                            <img src="/images/cgpac.webp" alt="Understanding CGPA">
+                            <h4>Understanding CGPA Calculation</h4>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="blog-post-3.html">
+                            <img src="/images/student4.jpeg" alt="Study Tips">
+                            <h4>Study Tips for Students</h4>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="blog-post-4.html">
+                            <img src="/images/time.jpg" alt="Time Management">
+                            <h4>Time Management for Students</h4>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Tags Widget -->
+            <div class="sidebar-widget">
+                <h3>Tags</h3>
+                <div class="tags">
+                    <a href="#" class="tag">GPA</a>
+                    <a href="#" class="tag">Study Tips</a>
+                    <a href="#" class="tag">Academic Success</a>
+                    <a href="#" class="tag">Time Management</a>
+                    <a href="#" class="tag">University</a>
+                    <a href="#" class="tag">Learning</a>
+                    <a href="#" class="tag">Productivity</a>
+                </div>
+            </div>
+
+            <!-- Calculator Widget -->
+            <div class="sidebar-widget">
+                <h3>GPA Calculator</h3>
+                <p>Need to calculate your GPA? Use our simple calculator tool to track your progress.</p>
+                <a href="/index.html#calculator" class="read-more">Go to Calculator <i class="fas fa-arrow-right"></i></a>
         </div>
+        </aside>
     </div>
+
+    <!-- Related Posts -->
+    <section class="container related-posts">
+        <h2>Related Articles</h2>
+        <div class="related-grid">
+            <!-- Related Post 1 -->
+            <article class="related-post">
+                <div class="related-post-image">
+                    <img src="/images/student4.jpeg" alt="Study Tips for Students">
+                </div>
+                <div class="related-post-content">
+                    <h3>Study Tips for Students: Boost Your Learning Efficiency</h3>
+                    <a href="blog-post-3.html" class="read-more">Read Article <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </article>
+
+            <!-- Related Post 2 -->
+            <article class="related-post">
+                <div class="related-post-image">
+                    <img src="/images/time.jpg" alt="Time Management for Students">
+                </div>
+                <div class="related-post-content">
+                    <h3>Time Management for Students: Balance Academics and Life</h3>
+                    <a href="blog-post-4.html" class="read-more">Read Article <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </article>
+
+            <!-- Related Post 3 -->
+            <article class="related-post">
+                <div class="related-post-image">
+                    <img src="/images/student.jpg" alt="Exam Preparation Tips">
+                </div>
+                <div class="related-post-content">
+                    <h3>Exam Preparation Tips: Strategies for Success</h3>
+                    <a href="blog-post-5.html" class="read-more">Read Article <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="container">
+        <div class="newsletter">
+            <h2>Subscribe to Our Newsletter</h2>
+            <p>Get the latest study tips, academic resources, and GPA calculator updates delivered straight to your inbox.</p>
+            <form class="newsletter-form">
+                <input type="email" placeholder="Your email address" required>
+                <button type="submit">Subscribe</button>
+            </form>
+        </div>
+    </section>
 
     <!-- Footer -->
     <footer>
-        <p>&copy; 2025 GPA Calculator. All rights reserved. | <a href="#">Privacy Policy</a></p>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-col">
+                    <h4>About Us</h4>
+                    <p>GPA Calculator is a modern tool designed to help students easily calculate their Grade Point Average and track academic progress.</p>
+                    <div class="social-links">
+                        <a href="https://facebook.com" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://twitter.com" target="_blank" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="https://instagram.com/man_abdi22" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.snapchat.com/add/abdiwahab_i" target="_blank"><i class="fab fa-snapchat-ghost"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="/index.html">Home</a></li>
+                        <li><a href="/index.html#calculator">Calculator</a></li>
+                        <li><a href="/index.html#features">Features</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="/index.html#about">About</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">Study Guides</a></li>
+                        <li><a href="#">GPA Improvement Tips</a></li>
+                        <li><a href="#">Understanding Grading Systems</a></li>
+                        <li><a href="#">Academic Planning</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact Us</h4>
+                    <ul>
+                        <li><i class="fas fa-envelope"></i> contact@gpacalculator.com</li>
+                        <li><i class="fas fa-phone"></i> +252 636 430 464</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Hargeisa, Somaliland</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2024 GPA Calculator. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+            </div>
+        </div>
     </footer>
+
+    <script>
+        // Mobile menu toggle
+        const mobileToggle = document.querySelector('.mobile-toggle');
+        const closeMenu = document.querySelector('.close-menu');
+        const navLinks = document.querySelector('nav ul');
+
+        mobileToggle.addEventListener('click', () => {
+            navLinks.classList.add('active');
+        });
+
+        closeMenu.addEventListener('click', () => {
+            navLinks.classList.remove('active');
+        });
+    </script>
 </body>
 </html>

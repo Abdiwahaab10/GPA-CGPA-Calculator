@@ -3,211 +3,391 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Latest Blog Posts</title>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Merriweather:wght@700&display=swap" rel="stylesheet">
+    <title>GPA Calculator | Blog</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles.css">
     <style>
-        /* General Styles */
-        body {
-            font-family: 'Poppins', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f9fafb;
-            color: #333;
-            line-height: 1.8;
-        }
-
-        h1, h2, h3 {
-            font-family: 'Merriweather', serif;
-            font-weight: 700;
-        }
-
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
-
-        /* Header */
-        header {
-            background: linear-gradient(135deg, #6a11cb, #2575fc);
-            color: white;
-            padding: 3rem 2rem;
-            text-align: center;
-            clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
-        }
-
-        header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            animation: fadeInDown 1s ease;
-        }
-
-        /* Navigation */
-        nav {
+        .blog-tools {
             display: flex;
-            justify-content: center;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 1rem;
-            margin-top: 1rem;
-            border-radius: 8px;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+            gap: 1.5rem;
         }
 
-        nav a {
-            margin: 0 1.5rem;
+        .search-bar {
+            position: relative;
+            flex: 1;
+            max-width: 400px;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 1rem 3rem 1rem 1.5rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 30px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-bar i {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+        }
+
+        .categories {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .category-tag {
+            padding: 0.5rem 1.2rem;
+            background: #f0f0f0;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .category-tag.active {
+            background: var(--primary-color);
             color: white;
-            font-weight: bold;
-            transition: color 0.3s ease;
         }
 
-        nav a:hover {
-            color: #ffdd57;
+        .view-options {
+            display: flex;
+            gap: 1rem;
+            margin: 2rem 0;
         }
 
-        /* Container */
-        .container {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 1rem;
+        .view-options button {
+            background: transparent;
+            border: none;
+            color: #666;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: all 0.3s ease;
         }
 
-        /* Blog Section */
-        .blog-posts {
+        .view-options button.active {
+            color: var(--primary-color);
+            transform: scale(1.1);
+        }
+
+        .blog-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
+            margin: 2rem 0;
         }
 
-        .blog-post {
-            background: white;
+        .blog-grid.list-view {
+            grid-template-columns: 1fr;
+        }
+
+        .blog-grid.list-view .blog-post {
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            gap: 1.5rem;
+            align-items: center;
             padding: 1.5rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            cursor: pointer;
         }
 
-        .blog-post:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin: 3rem 0;
+            flex-wrap: wrap;
         }
 
-        .blog-post img {
-            width: 100%;
-            border-radius: 8px;
-            margin-bottom: 1.5rem;
-            transition: transform 0.3s ease;
-        }
-
-        .blog-post:hover img {
-            transform: scale(1.05);
-        }
-
-        .blog-post h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: #333;
-        }
-
-        .blog-post p {
-            font-size: 1rem;
+        .pagination a {
+            padding: 0.7rem 1.2rem;
+            background: #f0f0f0;
+            border-radius: 50%;
             color: #666;
-            line-height: 1.6;
+            transition: all 0.3s ease;
         }
 
-        /* Footer */
-        footer {
-            background: #333;
+        .pagination a:hover {
+            background: var(--primary-color);
             color: white;
-            text-align: center;
-            padding: 2rem;
-            margin-top: 4rem;
         }
 
-        footer a {
-            color: #6a11cb;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        footer a:hover {
-            color: #2575fc;
-            text-decoration: underline;
-        }
-
-        /* Animations */
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .pagination .active {
+            background: var(--primary-color);
+            color: white;
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
     <header>
-        <h1>Latest Blog Posts</h1>
-        <nav>
-            <a href="/index.html">Home</a>
-            <a href="#blog">Blog</a>
-            <a href="#gallery">Gallery</a>
-        </nav>
+        <div class="container header-container">
+            <a href="../index.html" class="logo">
+                <i class="fas fa-calculator"></i>
+                <span>GPA Calculator</span>
+            </a>
+            <nav>
+                <button class="mobile-toggle" aria-label="Toggle menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="../index.html#calculator">Calculator</a></li>
+                    <li><a href="../index.html#features">Features</a></li>
+                    <li><a href="blog.html" class="active">Blog</a></li>
+                    <li><a href="../index.html#about">About</a></li>
+                    <button class="close-menu"><i class="fas fa-times"></i></button>
+                </ul>
+            </nav>
+        </div>
     </header>
 
-    <!-- Blog Section -->
+    <section class="hero">
+        <div class="container hero-content">
+            <h1>Academic Success Blog</h1>
+            <p>Expert tips, study strategies, and educational resources</p>
+        </div>
+    </section>
+
     <div class="container">
-        <div class="blog-posts">
-            <!-- Blog Post 1 -->
-            <div class="blog-post" onclick="window.location.href='blog-post-1.html'">
-                <img src="/images/gpa.jpg" alt="How to Improve Your GPA">
-                <h3>How to Improve Your GPA</h3>
-                <p>Discover effective strategies to boost your GPA and achieve academic success.</p>
+        <div class="blog-tools">
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search blog posts...">
             </div>
+            <div class="categories">
+                <a href="#" class="category-tag active">All</a>
+                <a href="#" class="category-tag">Study Tips</a>
+                <a href="#" class="category-tag">GPA</a>
+                <a href="#" class="category-tag">CGPA</a>
+                <a href="#" class="category-tag">Career</a>
+            </div>
+        </div>
 
-            <!-- Blog Post 2 -->
-            <div class="blog-post" onclick="window.location.href='blog-post-2.html'">
-                <img src="/images/cgpac.webp" alt="Understanding CGPA">
-                <h3>Understanding CGPA</h3>
-                <p>Learn what CGPA is and how it differs from GPA in university grading systems.</p>
-            </div>
-
-            <!-- Blog Post 3 -->
-            <div class="blog-post" onclick="window.location.href='blog-post-3.html'">
-                <img src="/images/student4.jpeg" alt="Study Tips for Students">
-                <h3>Study Tips for Students</h3>
-                <p>Explore proven study techniques to enhance your learning and performance.</p>
-            </div>
-
-            <!-- Blog Post 4 -->
-            <div class="blog-post" onclick="window.location.href='blog-post-4.html'">
-                <img src="/images/time.jpg" alt="Time Management for Students">
-                <h3>Time Management for Students</h3>
-                <p>Learn how to manage your time effectively and balance academics with personal life.</p>
-            </div>
-
-            <!-- Blog Post 5 -->
-            <div class="blog-post" onclick="window.location.href='blog-post-5.html'">
-                <img src="/images/student.jpg" alt="Exam Preparation Tips">
-                <h3>Exam Preparation Tips</h3>
-                <p>Discover tips to prepare effectively for exams and reduce stress during the exam period.</p>
-            </div>
-
-            <!-- Blog Post 6 -->
-            <div class="blog-post" onclick="window.location.href='blog-post-6.html'">
-                <img src="/images/student2.avif" alt="Career Planning for Graduates">
-                <h3>Career Planning for Graduates</h3>
-                <p>Plan your career path effectively after graduation with these expert tips.</p>
-            </div>
+        <div class="view-options">
+            <button class="active" title="Grid View">
+                <i class="fas fa-th-large"></i>
+            </button>
+            <button title="List View">
+                <i class="fas fa-list"></i>
+            </button>
         </div>
     </div>
 
-    <!-- Footer -->
+    <section class="container blog-grid">
+        <!-- Blog Post 1 -->
+        <article class="blog-post">
+            <div class="post-image">
+                <img src="../images/reading.jpg" alt="Improving GPA">
+            </div>
+            <div class="post-content">
+                <div class="post-meta">
+                    <span><i class="far fa-calendar"></i> May 15, 2024</span>
+                    <span><i class="far fa-folder"></i> Study Tips</span>
+                </div>
+                <h3>How to Improve Your GPA: Proven Strategies</h3>
+                <p>Discover effective methods to boost your academic performance and achieve your target GPA...</p>
+                <a href="blog-post-1.html" class="read-more">Read Article <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </article>
+
+        <!-- Blog Post 2 -->
+        <article class="blog-post">
+            <div class="post-image">
+                <img src="../images/student4.jpeg" alt="CGPA Explained">
+            </div>
+            <div class="post-content">
+                <div class="post-meta">
+                    <span><i class="far fa-calendar"></i> May 5, 2024</span>
+                    <span><i class="far fa-folder"></i> CGPA</span>
+                </div>
+                <h3>Understanding CGPA Calculation</h3>
+                <p>Learn how Cumulative Grade Point Average is calculated and why it matters for your academic journey...</p>
+                <a href="blog-post-2.html" class="read-more">Read Article <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </article>
+
+        <!-- Blog Post 3 -->
+        <article class="blog-post">
+            <div class="post-image">
+                <img src="../images/studenthelp.jpg" alt="Time Management">
+            </div>
+            <div class="post-content">
+                <div class="post-meta">
+                    <span><i class="far fa-calendar"></i> April 28, 2024</span>
+                    <span><i class="far fa-folder"></i> Study Tips</span>
+                </div>
+                <h3>Study Tips for Students</h3>
+                <p>Effective studying is key to academic success. Here are some proven study techniques to help you maximize your learning:
+                    ...</p>
+                <a href="blog-post-3.html" class="read-more">Read Article <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </article>
+
+        <!-- Blog Post 4 -->
+        <article class="blog-post">
+            <div class="post-image">
+                <img src="../images/time.jpg" alt="Extracurricular Activities">
+            </div>
+            <div class="post-content">
+                <div class="post-meta">
+                    <span><i class="far fa-calendar"></i> June 1, 2024</span>
+                    <span><i class="far fa-folder"></i> Career</span>
+                </div>
+                <h3>Time Management for Students</h3>
+                <p>  Balancing academics, extracurricular activities, and personal life can be challenging. Here are some time management tips to help you stay on track:
+                    ...</p>
+                <a href="blog-post-4.html" class="read-more">Read Article <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </article>
+
+        <!-- Blog Post 5 -->
+        <article class="blog-post">
+            <div class="post-image">
+                <img src="../images/student.jpg" alt="Note Taking">
+            </div>
+            <div class="post-content">
+                <div class="post-meta">
+                    <span><i class="far fa-calendar"></i> June 8, 2024</span>
+                    <span><i class="far fa-folder"></i> Study Tips</span>
+                </div>
+                <h3>Exam Preparation Tips</h3>
+                <p> Preparing for exams can be stressful, but with the right approach, you can ace them. Here are some tips:
+                    ...</p>
+                <a href="blog-post-5.html" class="read-more">Read Article <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </article>
+
+        <!-- Blog Post 6 -->
+        <article class="blog-post">
+            <div class="post-image">
+                <img src="../images/student2.avif" alt="Graduate School">
+            </div>
+            <div class="post-content">
+                <div class="post-meta">
+                    <span><i class="far fa-calendar"></i> June 15, 2024</span>
+                    <span><i class="far fa-folder"></i> Career</span>
+                </div>
+                <h3>Career Planning for Graduates</h3>
+                <p>Graduating is an exciting milestone, but it’s also the perfect time to plan your career. Here’s how to get started:
+                    ...</p>
+                <a href="blog-post-6.html" class="read-more">Read Article <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </article>
+    </section>
+
+    <div class="container pagination">
+        <a href="#" class="active">1</a>
+        <a href="#">2</a>
+        <a href="#">3</a>
+        <a href="#">4</a>
+        <a href="#">→</a>
+    </div>
+
     <footer>
-        <p>&copy; 2025 GPA Calculator. All rights reserved. | <a href="#">Privacy Policy</a></p>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-col">
+                    <h4>About Us</h4>
+                    <p>GPA Calculator is a modern tool designed to help students easily calculate their Grade Point Average and track academic progress.</p>
+                    <div class="social-links">
+                        <a href="https://facebook.com" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://twitter.com" target="_blank" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="https://instagram.com/man_abdi22" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.snapchat.com/add/abdiwahab_i" target="_blank"><i class="fab fa-snapchat-ghost"></i></a>
+                        <a href="https://wa.me/+252636430464" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="../index.html#calculator">Calculator</a></li>
+                        <li><a href="../index.html#features">Features</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="../index.html#about">About</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="blog-post-1.html">GPA Improvement Tips</a></li>
+                        <li><a href="blog-post-2.html">Understanding CGPA</a></li>
+                        <li><a href="blog-post-3.html">Study Techniques</a></li>
+                        <li><a href="blog-post-4.html">Extracurricular Activities</a></li>
+                        <li><a href="blog-post-5.html">Note-Taking Strategies</a></li>
+                        <li><a href="blog-post-6.html">Graduate School Prep</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact Us</h4>
+                    <ul>
+                        <li><i class="fas fa-envelope"></i> contact@gpacalculator.com</li>
+                        <li><i class="fas fa-phone"></i> +252 636 430 464</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Hargeisa, Somaliland</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2024 GPA Calculator. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+            </div>
+        </div>
     </footer>
+
+    <button id="scrollToTopBtn" aria-label="Scroll to top">
+        <img src="../images/up-arrow.png" alt="Up Arrow" width="32" height="32">
+    </button>
+
+    <script>
+        // Mobile Menu
+        document.querySelector('.mobile-toggle').addEventListener('click', () => {
+            document.querySelector('nav ul').classList.add('active');
+        });
+
+        document.querySelector('.close-menu').addEventListener('click', () => {
+            document.querySelector('nav ul').classList.remove('active');
+        });
+
+        // View Toggle
+        document.querySelectorAll('.view-options button').forEach(button => {
+            button.addEventListener('click', () => {
+                document.querySelectorAll('.view-options button').forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                document.querySelector('.blog-grid').classList.toggle('list-view', button.querySelector('i').classList.contains('fa-list'));
+            });
+        });
+
+        // Search Functionality
+        document.querySelector('.search-bar input').addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            document.querySelectorAll('.blog-post').forEach(post => {
+                const title = post.querySelector('h3').textContent.toLowerCase();
+                post.style.display = title.includes(term) ? 'block' : 'none';
+            });
+        });
+
+        // Category Filtering
+        document.querySelectorAll('.category-tag').forEach(tag => {
+            tag.addEventListener('click', (e) => {
+                e.preventDefault();
+                document.querySelectorAll('.category-tag').forEach(t => t.classList.remove('active'));
+                tag.classList.add('active');
+                const category = tag.textContent.toLowerCase();
+                document.querySelectorAll('.blog-post').forEach(post => {
+                    const postCategory = post.querySelector('.post-meta span:last-child').textContent.toLowerCase();
+                    post.style.display = (category === 'all' || postCategory.includes(category)) ? 'block' : 'none';
+                });
+            });
+        });
+    </script>
 </body>
 </html>
