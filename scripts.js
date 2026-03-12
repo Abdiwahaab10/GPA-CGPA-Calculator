@@ -5,278 +5,350 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function setupEventListeners() {
-    // GPA Form Submission
     const gpaForm = document.getElementById('gpaForm');
     if (gpaForm) {
         gpaForm.addEventListener('submit', handleGpaSubmit);
     }
 
-    // CGPA Form Submission
     const cgpaForm = document.getElementById('cgpaForm');
     if (cgpaForm) {
         cgpaForm.addEventListener('submit', handleCgpaSubmit);
     }
 
-    // GPA Clear Button
-    const clearGpaBtn = document.getElementById('clearBtn'); // Assuming 'clearBtn' is for GPA
+    const plannerForm = document.getElementById('plannerForm');
+    if (plannerForm) {
+        plannerForm.addEventListener('submit', handlePlannerSubmit);
+    }
+
+    const clearGpaBtn = document.getElementById('clearBtn');
     if (clearGpaBtn) {
         clearGpaBtn.addEventListener('click', clearGpaForm);
     }
 
-    // CGPA Clear Button (We'll add this button to HTML later)
     const clearCgpaBtn = document.getElementById('clearCgpaBtn');
     if (clearCgpaBtn) {
         clearCgpaBtn.addEventListener('click', clearCgpaForm);
     }
 
-    // Scroll to Top Button
+    const clearPlannerBtn = document.getElementById('clearPlannerBtn');
+    if (clearPlannerBtn) {
+        clearPlannerBtn.addEventListener('click', clearPlannerForm);
+    }
+
+    const exportPdfBtn = document.getElementById('exportPdfBtn');
+    if (exportPdfBtn) {
+        exportPdfBtn.addEventListener('click', exportGpaPdf);
+    }
+
+    const exportExcelBtn = document.getElementById('exportExcelBtn');
+    if (exportExcelBtn) {
+        exportExcelBtn.addEventListener('click', exportGpaExcel);
+    }
+
     const scrollToTopBtn = document.getElementById('scrollToTopBtn');
     if (scrollToTopBtn) {
         window.addEventListener('scroll', () => {
-            if (window.scrollY > 300) {
-                scrollToTopBtn.style.display = 'block';
-            } else {
-                scrollToTopBtn.style.display = 'none';
-            }
+            scrollToTopBtn.style.display = window.scrollY > 300 ? 'block' : 'none';
         });
         scrollToTopBtn.addEventListener('click', () => {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     }
 
-    // Hamburger Menu Toggle
     const menuToggle = document.querySelector('.menu-toggle');
     const closeMenu = document.querySelector('.close-menu');
     const navLinks = document.querySelector('.nav-links');
 
     if (menuToggle && closeMenu && navLinks) {
-        menuToggle.addEventListener('click', () => {
-            navLinks.classList.add('active');
-        });
-        closeMenu.addEventListener('click', () => {
-            navLinks.classList.remove('active');
-        });
+        menuToggle.addEventListener('click', () => navLinks.classList.add('active'));
+        closeMenu.addEventListener('click', () => navLinks.classList.remove('active'));
     }
-
-    // Add event listeners to dynamically added delete buttons if needed,
-    // or rely on onclick attributes as currently implemented.
 }
 
-
-// --- GPA Functions ---
-
-function addCourse(percentageValue = '') {
+function addCourse(percentageValue = '', creditsValue = '3') {
     const coursesDiv = document.getElementById('courses');
     if (!coursesDiv) return;
+
     const newCourse = document.createElement('div');
     newCourse.className = 'course';
     newCourse.innerHTML = `
         <button type="button" class="delete-btn" onclick="deleteCourse(this)"><i class="fas fa-trash"></i></button>
         <input type="number" placeholder="Percentage" min="0" max="100" value="${percentageValue}" required>
+        <input type="number" placeholder="Credits" min="0.5" step="0.5" value="${creditsValue}" required>
     `;
     coursesDiv.appendChild(newCourse);
-    // No need to save here, save on calculate or explicit save action if added
 }
 
 function deleteCourse(button) {
+    const coursesDiv = document.getElementById('courses');
+    if (coursesDiv && coursesDiv.children.length === 1) return;
     button.parentElement.remove();
-    saveGpaData(); // Save after deleting
-    // Optionally recalculate GPA if a result is displayed
-    // handleGpaSubmit(new Event('submit')); // This might be too aggressive
+    saveGpaData();
 }
 
 function handleGpaSubmit(event) {
     event.preventDefault();
-    const courseInputs = document.querySelectorAll('#courses .course input');
-    let totalGradePoints = 0;
-    let totalCourses = 0;
-    let validDataEntered = false;
+    const courseRows = document.querySelectorAll('#courses .course');
+    const gradingScale = document.getElementById('gradingScale')?.value || 'standard4';
 
-    courseInputs.forEach(input => {
-        const percentage = parseFloat(input.value);
-        if (!isNaN(percentage) && percentage >= 0 && percentage <= 100) {
-            const gradePoint = getGradePoint(percentage);
-            totalGradePoints += gradePoint;
-            totalCourses++;
-            validDataEntered = true; // Mark that we have at least one valid input
-        } else if (input.value.trim() !== '') {
-             // If input is not empty but invalid, still consider it an attempt
-             validDataEntered = true;
+    let totalWeightedPoints = 0;
+    let totalCredits = 0;
+    const breakdown = [];
+
+    courseRows.forEach((row, index) => {
+        const [percentageInput, creditsInput] = row.querySelectorAll('input');
+        const percentage = parseFloat(percentageInput.value);
+        const credits = parseFloat(creditsInput.value);
+
+        if (!isNaN(percentage) && percentage >= 0 && percentage <= 100 && !isNaN(credits) && credits > 0) {
+            const gradePoint = getGradePoint(percentage, gradingScale);
+            totalWeightedPoints += gradePoint * credits;
+            totalCredits += credits;
+            breakdown.push({ index: index + 1, percentage, credits, gradePoint });
         }
     });
 
     const gpaResultDiv = document.getElementById('gpaResult');
-    if (!gpaResultDiv) return;
+    const gpaBreakdown = document.getElementById('gpaBreakdown');
+    if (!gpaResultDiv || !gpaBreakdown) return;
 
-    if (totalCourses === 0) {
-         if (validDataEntered || courseInputs.length > 0) {
-            // Alert only if fields were filled (even if invalid) or if fields exist
-             alert('Please enter at least one valid percentage (0-100).');
-         }
-         gpaResultDiv.innerText = ''; // Clear previous result
-         // Don't save if calculation failed due to no valid data
-         return;
+    if (totalCredits === 0) {
+        alert('Please enter valid percentages and credits.');
+        gpaResultDiv.innerText = '';
+        gpaBreakdown.innerHTML = '';
+        return;
     }
 
+    const gpa = totalWeightedPoints / totalCredits;
+    gpaResultDiv.innerText = `Your GPA is: ${gpa.toFixed(2)} (Weighted)`;
+    gpaResultDiv.classList.remove('animate-result');
+    void gpaResultDiv.offsetWidth;
+    gpaResultDiv.classList.add('animate-result');
 
-    const gpa = totalGradePoints / totalCourses;
-    gpaResultDiv.innerText = `Your GPA is: ${gpa.toFixed(2)}`;
+    gpaBreakdown.innerHTML = `
+        <h4>Course Breakdown</h4>
+        <ul>
+            ${breakdown.map(item => `<li>Course ${item.index}: ${item.percentage}% • ${item.credits} credits • ${item.gradePoint.toFixed(2)} GP</li>`).join('')}
+        </ul>
+    `;
 
-    // Trigger animation
-    gpaResultDiv.classList.remove('animate-result'); // Reset animation
-    void gpaResultDiv.offsetWidth; // Force reflow
-    gpaResultDiv.classList.add('animate-result'); // Add class to animate
-
-    saveGpaData(); // Save data after successful calculation
+    saveGpaData();
 }
 
 function saveGpaData() {
-    const courseInputs = document.querySelectorAll('#courses .course input');
-    const percentages = Array.from(courseInputs).map(input => input.value);
-    localStorage.setItem('gpaCourses', JSON.stringify(percentages));
+    const courseRows = document.querySelectorAll('#courses .course');
+    const courses = Array.from(courseRows).map(row => {
+        const [percentageInput, creditsInput] = row.querySelectorAll('input');
+        return {
+            percentage: percentageInput.value,
+            credits: creditsInput.value
+        };
+    });
+    const gradingScale = document.getElementById('gradingScale')?.value || 'standard4';
+    localStorage.setItem('gpaCourses', JSON.stringify(courses));
+    localStorage.setItem('gpaScale', gradingScale);
 }
 
 function loadGpaData() {
-    const savedPercentages = JSON.parse(localStorage.getItem('gpaCourses') || '[]');
+    const savedCourses = JSON.parse(localStorage.getItem('gpaCourses') || '[]');
+    const savedScale = localStorage.getItem('gpaScale') || 'standard4';
     const coursesDiv = document.getElementById('courses');
+    const gradingScale = document.getElementById('gradingScale');
     if (!coursesDiv) return;
 
-    // Clear existing courses before loading (important!)
     coursesDiv.innerHTML = '';
 
-    if (savedPercentages.length === 0) {
-        // If no saved data, add one empty course row by default
+    if (savedCourses.length === 0) {
         addCourse();
     } else {
-        savedPercentages.forEach(percentage => {
-            addCourse(percentage); // Add course with the saved value
+        savedCourses.forEach(course => {
+            addCourse(course.percentage || '', course.credits || '3');
         });
+    }
+
+    if (gradingScale) {
+        gradingScale.value = savedScale;
+        gradingScale.addEventListener('change', saveGpaData);
     }
 }
 
 function clearGpaForm() {
     const coursesDiv = document.getElementById('courses');
     const gpaResultDiv = document.getElementById('gpaResult');
-    if (coursesDiv) coursesDiv.innerHTML = ''; // Clear all course inputs
-    if (gpaResultDiv) gpaResultDiv.innerText = ''; // Clear result
-    localStorage.removeItem('gpaCourses'); // Clear saved data
-    addCourse(); // Add back one empty course row
+    const gpaBreakdown = document.getElementById('gpaBreakdown');
+    if (coursesDiv) coursesDiv.innerHTML = '';
+    if (gpaResultDiv) gpaResultDiv.innerText = '';
+    if (gpaBreakdown) gpaBreakdown.innerHTML = '';
+    localStorage.removeItem('gpaCourses');
+    localStorage.removeItem('gpaScale');
+    addCourse();
 }
 
-
-// --- CGPA Functions ---
-
-function addSemester(gpaValue = '') {
+function addSemester(gpaValue = '', creditsValue = '15') {
     const semestersDiv = document.getElementById('semesters');
     if (!semestersDiv) return;
+
     const semesterCount = semestersDiv.children.length + 1;
     const newSemester = document.createElement('div');
     newSemester.className = 'semester';
-    // Add delete button similar to courses
     newSemester.innerHTML = `
         <button type="button" class="delete-btn" onclick="deleteSemester(this)"><i class="fas fa-trash"></i></button>
         <input type="number" placeholder="GPA for Semester ${semesterCount}" min="0" max="4" step="0.01" value="${gpaValue}" required>
+        <input type="number" placeholder="Semester Credits" min="1" step="1" value="${creditsValue}" required>
     `;
     semestersDiv.appendChild(newSemester);
     updateSemesterPlaceholders();
 }
 
 function deleteSemester(button) {
+    const semestersDiv = document.getElementById('semesters');
+    if (semestersDiv && semestersDiv.children.length === 1) return;
     button.parentElement.remove();
     updateSemesterPlaceholders();
-    saveCgpaData(); // Save after deleting
+    saveCgpaData();
 }
 
 function updateSemesterPlaceholders() {
-    const semesterInputs = document.querySelectorAll('#semesters .semester input');
-    semesterInputs.forEach((input, index) => {
-        input.placeholder = `GPA for Semester ${index + 1}`;
+    const semesterRows = document.querySelectorAll('#semesters .semester');
+    semesterRows.forEach((row, index) => {
+        const inputs = row.querySelectorAll('input');
+        inputs[0].placeholder = `GPA for Semester ${index + 1}`;
     });
 }
 
-
 function handleCgpaSubmit(event) {
     event.preventDefault();
-    const semesterInputs = document.querySelectorAll('#semesters .semester input');
-    let totalGPA = 0;
-    let totalSemesters = 0;
-    let validDataEntered = false;
+    const semesterRows = document.querySelectorAll('#semesters .semester');
 
-    semesterInputs.forEach(input => {
-        const gpa = parseFloat(input.value);
-        if (!isNaN(gpa) && gpa >= 0 && gpa <= 4) {
-            totalGPA += gpa;
-            totalSemesters++;
-            validDataEntered = true;
-        } else if (input.value.trim() !== '') {
-            validDataEntered = true;
+    let totalWeightedGpa = 0;
+    let totalCredits = 0;
+
+    semesterRows.forEach(row => {
+        const [gpaInput, creditsInput] = row.querySelectorAll('input');
+        const gpa = parseFloat(gpaInput.value);
+        const credits = parseFloat(creditsInput.value);
+
+        if (!isNaN(gpa) && gpa >= 0 && gpa <= 4 && !isNaN(credits) && credits > 0) {
+            totalWeightedGpa += gpa * credits;
+            totalCredits += credits;
         }
     });
 
     const cgpaResultDiv = document.getElementById('cgpaResult');
-     if (!cgpaResultDiv) return;
+    if (!cgpaResultDiv) return;
 
-    if (totalSemesters === 0) {
-        if (validDataEntered || semesterInputs.length > 0) {
-            alert('Please enter at least one valid semester GPA (0.00-4.00).');
-        }
-        cgpaResultDiv.innerText = ''; // Clear previous result
-        // Don't save if calculation failed
+    if (totalCredits === 0) {
+        alert('Please enter valid semester GPA and credits.');
+        cgpaResultDiv.innerText = '';
         return;
     }
 
-    const cgpa = totalGPA / totalSemesters;
-    cgpaResultDiv.innerText = `Your CGPA is: ${cgpa.toFixed(2)}`;
+    const cgpa = totalWeightedGpa / totalCredits;
+    cgpaResultDiv.innerText = `Your CGPA is: ${cgpa.toFixed(2)} (Weighted)`;
+    cgpaResultDiv.classList.remove('animate-result');
+    void cgpaResultDiv.offsetWidth;
+    cgpaResultDiv.classList.add('animate-result');
 
-    // Trigger animation
-    cgpaResultDiv.classList.remove('animate-result'); // Reset animation
-    void cgpaResultDiv.offsetWidth; // Force reflow
-    cgpaResultDiv.classList.add('animate-result'); // Add class to animate
-
-    saveCgpaData(); // Save data after successful calculation
+    saveCgpaData();
 }
 
 function saveCgpaData() {
-    const semesterInputs = document.querySelectorAll('#semesters .semester input');
-    const gpas = Array.from(semesterInputs).map(input => input.value);
-    localStorage.setItem('cgpaSemesters', JSON.stringify(gpas));
+    const semesterRows = document.querySelectorAll('#semesters .semester');
+    const semesters = Array.from(semesterRows).map(row => {
+        const [gpaInput, creditsInput] = row.querySelectorAll('input');
+        return {
+            gpa: gpaInput.value,
+            credits: creditsInput.value
+        };
+    });
+    localStorage.setItem('cgpaSemesters', JSON.stringify(semesters));
 }
 
 function loadCgpaData() {
-    const savedGpas = JSON.parse(localStorage.getItem('cgpaSemesters') || '[]');
+    const savedSemesters = JSON.parse(localStorage.getItem('cgpaSemesters') || '[]');
     const semestersDiv = document.getElementById('semesters');
     if (!semestersDiv) return;
 
-    // Clear existing semesters before loading
     semestersDiv.innerHTML = '';
 
-    if (savedGpas.length === 0) {
-        // Add one empty semester row by default
+    if (savedSemesters.length === 0) {
         addSemester();
     } else {
-        savedGpas.forEach(gpa => {
-            addSemester(gpa); // Add semester with the saved value
+        savedSemesters.forEach(semester => {
+            addSemester(semester.gpa || '', semester.credits || '15');
         });
     }
-     updateSemesterPlaceholders(); // Ensure placeholders are correct after loading
+
+    updateSemesterPlaceholders();
 }
 
 function clearCgpaForm() {
     const semestersDiv = document.getElementById('semesters');
     const cgpaResultDiv = document.getElementById('cgpaResult');
-    if (semestersDiv) semestersDiv.innerHTML = ''; // Clear all semester inputs
-    if (cgpaResultDiv) cgpaResultDiv.innerText = ''; // Clear result
-    localStorage.removeItem('cgpaSemesters'); // Clear saved data
-    addSemester(); // Add back one empty semester row
+    if (semestersDiv) semestersDiv.innerHTML = '';
+    if (cgpaResultDiv) cgpaResultDiv.innerText = '';
+    localStorage.removeItem('cgpaSemesters');
+    addSemester();
 }
 
+function handlePlannerSubmit(event) {
+    event.preventDefault();
 
-// --- Helper & UI Functions ---
+    const currentCgpa = parseFloat(document.getElementById('currentCgpa')?.value);
+    const completedCredits = parseFloat(document.getElementById('completedCredits')?.value);
+    const upcomingCredits = parseFloat(document.getElementById('upcomingCredits')?.value);
+    const targetCgpa = parseFloat(document.getElementById('targetCgpa')?.value);
+    const plannerResultDiv = document.getElementById('plannerResult');
 
-function getGradePoint(percentage) {
-    // Existing grade point logic...
-    if (percentage >= 95) return 4.0;
-    if (percentage >= 90) return 4.0; // Assuming 90-100 is 4.0 based on common scales
+    if (!plannerResultDiv) return;
+
+    if ([currentCgpa, completedCredits, upcomingCredits, targetCgpa].some(v => isNaN(v)) || completedCredits <= 0 || upcomingCredits <= 0) {
+        plannerResultDiv.innerText = 'Please enter valid values in all planner fields.';
+        return;
+    }
+
+    const totalTargetPoints = targetCgpa * (completedCredits + upcomingCredits);
+    const currentPoints = currentCgpa * completedCredits;
+    const requiredGpa = (totalTargetPoints - currentPoints) / upcomingCredits;
+
+    if (requiredGpa > 4) {
+        plannerResultDiv.innerText = `You need ${requiredGpa.toFixed(2)} GPA, which is above 4.0. Consider adjusting your target.`;
+    } else if (requiredGpa < 0) {
+        plannerResultDiv.innerText = 'You already exceeded this target. Great job!';
+    } else {
+        plannerResultDiv.innerText = `Required GPA for upcoming credits: ${requiredGpa.toFixed(2)}`;
+    }
+
+    plannerResultDiv.classList.remove('animate-result');
+    void plannerResultDiv.offsetWidth;
+    plannerResultDiv.classList.add('animate-result');
+}
+
+function clearPlannerForm() {
+    const plannerForm = document.getElementById('plannerForm');
+    const plannerResultDiv = document.getElementById('plannerResult');
+    if (plannerForm) plannerForm.reset();
+    if (plannerResultDiv) plannerResultDiv.innerText = '';
+}
+
+function getGradePoint(percentage, scale = 'standard4') {
+    if (scale === 'plusMinus') {
+        if (percentage >= 97) return 4.0;
+        if (percentage >= 93) return 4.0;
+        if (percentage >= 90) return 3.7;
+        if (percentage >= 87) return 3.3;
+        if (percentage >= 83) return 3.0;
+        if (percentage >= 80) return 2.7;
+        if (percentage >= 77) return 2.3;
+        if (percentage >= 73) return 2.0;
+        if (percentage >= 70) return 1.7;
+        if (percentage >= 67) return 1.3;
+        if (percentage >= 63) return 1.0;
+        if (percentage >= 60) return 0.7;
+        return 0.0;
+    }
+
+    if (percentage >= 90) return 4.0;
     if (percentage >= 85) return 3.7;
     if (percentage >= 80) return 3.3;
     if (percentage >= 75) return 3.0;
@@ -288,13 +360,54 @@ function getGradePoint(percentage) {
     return 0.0;
 }
 
-// Gallery Carousel Logic (Keep as is if needed)
-// ... (existing gallery code) ...
+function exportGpaPdf() {
+    const gpaText = document.getElementById('gpaResult')?.innerText;
+    const breakdownText = document.getElementById('gpaBreakdown')?.innerText;
+    if (!gpaText) {
+        alert('Calculate GPA first before exporting.');
+        return;
+    }
 
-// Note: Removed gallery code for brevity in this example,
-// but it should remain if it's part of the original script.
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    doc.setFontSize(16);
+    doc.text('GPA Report', 20, 20);
+    doc.setFontSize(12);
+    doc.text(gpaText, 20, 35);
+    if (breakdownText) {
+        doc.text(breakdownText, 20, 50, { maxWidth: 170 });
+    }
+    doc.save('gpa-report.pdf');
+}
 
-// Make sure functions called by onclick attributes are globally accessible
+function exportGpaExcel() {
+    const courseRows = document.querySelectorAll('#courses .course');
+    const rows = [];
+
+    courseRows.forEach((row, index) => {
+        const [percentageInput, creditsInput] = row.querySelectorAll('input');
+        const percentage = parseFloat(percentageInput.value);
+        const credits = parseFloat(creditsInput.value);
+        if (!isNaN(percentage) && !isNaN(credits)) {
+            rows.push({
+                Course: `Course ${index + 1}`,
+                Percentage: percentage,
+                Credits: credits
+            });
+        }
+    });
+
+    if (rows.length === 0) {
+        alert('No valid data to export.');
+        return;
+    }
+
+    const worksheet = XLSX.utils.json_to_sheet(rows);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'GPA Data');
+    XLSX.writeFile(workbook, 'gpa-data.xlsx');
+}
+
 window.addCourse = addCourse;
 window.deleteCourse = deleteCourse;
 window.addSemester = addSemester;
