@@ -121,9 +121,9 @@ function handleGpaSubmit(event) {
 
     const gpa = totalWeightedPoints / totalCredits;
     gpaResultDiv.innerText = `Your GPA is: ${gpa.toFixed(2)} (Weighted)`;
-    gpaResultDiv.classList.remove('animate-result');
+    gpaResultDiv.classList.remove('animate-result', 'gpa-excellent', 'gpa-good', 'gpa-average', 'gpa-low');
     void gpaResultDiv.offsetWidth;
-    gpaResultDiv.classList.add('animate-result');
+    gpaResultDiv.classList.add('animate-result', getGpaColorClass(gpa));
 
     gpaBreakdown.innerHTML = `
         <h4>Course Breakdown</h4>
@@ -177,7 +177,10 @@ function clearGpaForm() {
     const gpaResultDiv = document.getElementById('gpaResult');
     const gpaBreakdown = document.getElementById('gpaBreakdown');
     if (coursesDiv) coursesDiv.innerHTML = '';
-    if (gpaResultDiv) gpaResultDiv.innerText = '';
+    if (gpaResultDiv) {
+        gpaResultDiv.innerText = '';
+        gpaResultDiv.className = 'result';
+    }
     if (gpaBreakdown) gpaBreakdown.innerHTML = '';
     localStorage.removeItem('gpaCourses');
     localStorage.removeItem('gpaScale');
@@ -245,9 +248,9 @@ function handleCgpaSubmit(event) {
 
     const cgpa = totalWeightedGpa / totalCredits;
     cgpaResultDiv.innerText = `Your CGPA is: ${cgpa.toFixed(2)} (Weighted)`;
-    cgpaResultDiv.classList.remove('animate-result');
+    cgpaResultDiv.classList.remove('animate-result', 'gpa-excellent', 'gpa-good', 'gpa-average', 'gpa-low');
     void cgpaResultDiv.offsetWidth;
-    cgpaResultDiv.classList.add('animate-result');
+    cgpaResultDiv.classList.add('animate-result', getGpaColorClass(cgpa));
 
     saveCgpaData();
 }
@@ -286,7 +289,10 @@ function clearCgpaForm() {
     const semestersDiv = document.getElementById('semesters');
     const cgpaResultDiv = document.getElementById('cgpaResult');
     if (semestersDiv) semestersDiv.innerHTML = '';
-    if (cgpaResultDiv) cgpaResultDiv.innerText = '';
+    if (cgpaResultDiv) {
+        cgpaResultDiv.innerText = '';
+        cgpaResultDiv.className = 'result';
+    }
     localStorage.removeItem('cgpaSemesters');
     addSemester();
 }
@@ -313,10 +319,16 @@ function handlePlannerSubmit(event) {
 
     if (requiredGpa > 4) {
         plannerResultDiv.innerText = `You need ${requiredGpa.toFixed(2)} GPA, which is above 4.0. Consider adjusting your target.`;
+        plannerResultDiv.classList.remove('gpa-excellent', 'gpa-good', 'gpa-average', 'gpa-low');
+        plannerResultDiv.classList.add('gpa-low');
     } else if (requiredGpa < 0) {
         plannerResultDiv.innerText = 'You already exceeded this target. Great job!';
+        plannerResultDiv.classList.remove('gpa-excellent', 'gpa-good', 'gpa-average', 'gpa-low');
+        plannerResultDiv.classList.add('gpa-excellent');
     } else {
         plannerResultDiv.innerText = `Required GPA for upcoming credits: ${requiredGpa.toFixed(2)}`;
+        plannerResultDiv.classList.remove('gpa-excellent', 'gpa-good', 'gpa-average', 'gpa-low');
+        plannerResultDiv.classList.add(getGpaColorClass(requiredGpa));
     }
 
     plannerResultDiv.classList.remove('animate-result');
@@ -328,7 +340,17 @@ function clearPlannerForm() {
     const plannerForm = document.getElementById('plannerForm');
     const plannerResultDiv = document.getElementById('plannerResult');
     if (plannerForm) plannerForm.reset();
-    if (plannerResultDiv) plannerResultDiv.innerText = '';
+    if (plannerResultDiv) {
+        plannerResultDiv.innerText = '';
+        plannerResultDiv.className = 'result';
+    }
+}
+
+function getGpaColorClass(gpa) {
+    if (gpa >= 3.5) return 'gpa-excellent';
+    if (gpa >= 3.0) return 'gpa-good';
+    if (gpa >= 2.0) return 'gpa-average';
+    return 'gpa-low';
 }
 
 function getGradePoint(percentage, scale = 'standard4') {
