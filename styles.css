@@ -52,9 +52,8 @@ img {
 /* Header & Navigation */
 header {
     background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-   height: 50%;
     color: white;
-    padding:  1px;
+    padding: 0.75rem 0;
     position: sticky;
     top: 0;
     z-index: 100;
@@ -65,7 +64,8 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-height: 20px;}
+    min-height: 56px;
+}
 
 .logo {
     display: flex;
@@ -147,7 +147,7 @@ nav ul li a:hover::after {
     width: 100%;
     height: 100%;
     background: inherit;
-    filter: blur(8px); /* Optional: Add depth with blur */
+    filter: blur(3px);
     z-index: -1;
     opacity: 0.8;
 }
@@ -258,12 +258,12 @@ nav ul li a:hover::after {
 
 /* Calculator Section - Compact Redesign */
 .calculator {
-    background: white;
-    padding: 1.5rem; /* Reduced padding */
-    border-radius: 10px; /* Slightly smaller radius */
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1); /* Adjusted shadow */
-    margin-top: 0; /* Remove top margin as grid gap will handle spacing */
-    /* Ensure calculators in grid don't have conflicting margins */
+    background: linear-gradient(180deg, #ffffff 0%, #faf7ff 100%);
+    padding: 1.5rem;
+    border-radius: 16px;
+    border: 1px solid rgba(106, 17, 203, 0.12);
+    box-shadow: 0 14px 34px rgba(22, 16, 55, 0.08);
+    margin-top: 0;
 }
 
 /* NEW: Grid container for calculators */
@@ -277,7 +277,7 @@ nav ul li a:hover::after {
 /* Apply two columns on wider screens */
 @media (min-width: 768px) {
     .calculator-grid {
-        grid-template-columns: repeat(2, 1fr); /* Two equal columns */
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
     /* Remove the inline style margin-top from the second calculator if it exists */
     .calculator-grid > .calculator:nth-child(2) {
@@ -285,12 +285,23 @@ nav ul li a:hover::after {
     }
 }
 
+@media (min-width: 1080px) {
+    .calculator-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .planner-card {
+        grid-column: span 1;
+    }
+}
+
+
 
 .calculator h2 {
-    font-size: 1.6rem; /* Reduced font size */
-    margin-bottom: 1rem; /* Reduced margin */
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
     color: #333;
-    text-align: center; /* Center heading */
+    text-align: left;
 }
 
 /* Style for the container holding course/semester inputs */
@@ -302,7 +313,7 @@ nav ul li a:hover::after {
     width: 100%;
     padding: 0.5rem 0.75rem; /* Reduced padding */
     margin-bottom: 0.5rem; /* Reduced margin */
-    border: 1px solid #ddd;
+    border: 1px solid #dad6e6;
     border-radius: 6px; /* Slightly smaller radius */
     font-size: 0.9rem; /* Reduced font size */
     transition: border-color 0.3s ease;
@@ -312,6 +323,7 @@ nav ul li a:hover::after {
 
 .calculator input[type="number"]:focus {
     border-color: #6a11cb;
+    box-shadow: 0 0 0 3px rgba(106, 17, 203, 0.16);
     outline: none;
     transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Add box-shadow transition */
 }
@@ -328,6 +340,17 @@ nav ul li a:hover::after {
     align-items: center;
     margin-bottom: 0.5rem; /* Reduced margin */
     gap: 0.5rem; /* Space between button and input */
+}
+
+.btn-row {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.6rem;
+    margin-top: 0.8rem;
+}
+
+.btn-row-secondary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .course input[type="number"], .semester input[type="number"] {
@@ -353,13 +376,13 @@ nav ul li a:hover::after {
     color: #e74c3c; /* Red color on hover */
 }
 
-/* Container for buttons */
-.calculator form > div:not(#courses):not(#semesters):not(.result) { /* Target button containers */
+/* Legacy fallback for old markup */
+.calculator form > .button-group {
     display: flex;
-    flex-wrap: wrap; /* Allow buttons to wrap on small screens */
-    gap: 0.5rem; /* Space between buttons */
-    justify-content: center; /* Center buttons */
-    margin-top: 1rem; /* Space above buttons */
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+    margin-top: 1rem;
 }
 
 
@@ -372,8 +395,7 @@ nav ul li a:hover::after {
     font-size: 0.9rem; /* Reduced font size */
     cursor: pointer;
     transition: background 0.3s ease;
-    flex-grow: 1; /* Allow buttons to share space */
-    min-width: 100px; /* Minimum width for buttons */
+    min-width: 100px;
 }
 
 /* Specific button styling if needed */
@@ -412,11 +434,16 @@ nav ul li a:hover::after {
     color: #333;
     text-align: center;
     padding: 0.5rem;
-    background-color: #f0f0f0; /* Add subtle background */
+    background-color: #f3f4f8;
     border-radius: 6px;
     min-height: 1.5em; /* Ensure it takes space even when empty */
     transition: background-color 0.3s ease; /* Smooth background transition */
     opacity: 0; /* Start hidden for animation */
+}
+
+.planner-form-grid {
+    display: grid;
+    gap: 0.65rem;
 }
 
 /* NEW: Animation for result display */
@@ -436,6 +463,46 @@ nav ul li a:hover::after {
     animation: result-appear 0.5s ease forwards;
 }
 
+
+
+.calculator select,
+.calculator input[type="number"] {
+    width: 100%;
+}
+
+.calculator label {
+    display: block;
+    margin-bottom: 0.4rem;
+    font-weight: 600;
+    color: #444;
+}
+
+.calculator select {
+    padding: 0.5rem 0.75rem;
+    margin-bottom: 0.7rem;
+    border: 1px solid #dad6e6;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    background: #fff;
+}
+
+#gpaBreakdown {
+    margin-top: 0.8rem;
+    font-size: 0.9rem;
+    color: #444;
+    background: #f8f8ff;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 0.75rem;
+}
+
+#gpaBreakdown ul {
+    margin-left: 1rem;
+}
+
+.planner-card {
+    grid-column: 1 / -1;
+}
 
 /* Features Section */
 .features {
@@ -1036,7 +1103,7 @@ footer {
 @media (max-width: 768px) {
     .header-container {
         position: relative; /* Add position relative for absolute positioning context */
-        padding: 0 1rem; /* Add padding for better spacing */
+        padding: 0.25rem 1rem; /* Add padding for better spacing */
     }
 
     .mobile-toggle {
@@ -1090,6 +1157,31 @@ footer {
         font-size: 1rem;
     }
 
+    .calculator {
+        padding: 1.1rem;
+    }
+
+    .calculator h2 {
+        text-align: center;
+        font-size: 1.2rem;
+    }
+
+    .course,
+    .semester {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .delete-btn {
+        order: 1;
+        align-self: flex-end;
+    }
+
+    .btn-row,
+    .btn-row-secondary {
+        grid-template-columns: 1fr;
+    }
+
     .features {
         grid-template-columns: 1fr;
     }
@@ -1130,5 +1222,177 @@ footer {
 
     .cta-button, .secondary-button {
         padding: 0.7rem 1.2rem;
+    }
+
+    .container {
+        padding: 0 1rem;
+    }
+}
+
+
+/* ===== UI HOTFIX: clean header + calculator redesign ===== */
+header {
+    padding: 0.35rem 0;
+}
+
+.header-container {
+    min-height: 48px;
+}
+
+.logo {
+    font-size: 1.15rem;
+}
+
+.logo i {
+    font-size: 1.2rem;
+}
+
+nav ul {
+    align-items: center;
+    gap: 1.25rem;
+}
+
+#calculator {
+    scroll-margin-top: 90px;
+}
+
+.calculator-grid {
+    gap: 1rem;
+}
+
+.calculator {
+    background: #ffffff;
+    border: 1px solid #ebeaf3;
+    box-shadow: 0 8px 24px rgba(34, 22, 80, 0.08);
+    border-radius: 14px;
+    padding: 1.1rem;
+}
+
+.calculator h2 {
+    font-size: 1.15rem;
+    text-align: left;
+    margin-bottom: 0.75rem;
+}
+
+.calculator label {
+    font-size: 0.88rem;
+    color: #5e5b6b;
+}
+
+.course,
+.semester {
+    gap: 0.45rem;
+    margin-bottom: 0.6rem;
+}
+
+.course input[type="number"],
+.semester input[type="number"],
+.calculator select,
+.calculator input[type="number"] {
+    font-size: 0.92rem;
+    border-radius: 10px;
+    padding: 0.6rem 0.75rem;
+    border: 1px solid #ddd9eb;
+    background: #fbfbff;
+}
+
+.calculator input[type="number"]:focus,
+.calculator select:focus {
+    outline: none;
+    border-color: #6a11cb;
+    box-shadow: 0 0 0 3px rgba(106, 17, 203, 0.12);
+    background: #fff;
+}
+
+.delete-btn {
+    background: #fff1f3;
+    border: 1px solid #ffd5dc;
+    color: #c53030;
+    border-radius: 10px;
+    padding: 0.45rem;
+    order: 0;
+}
+
+.btn-row {
+    margin-top: 0.55rem;
+    gap: 0.5rem;
+}
+
+.calculator button {
+    border-radius: 10px;
+    padding: 0.62rem 0.8rem;
+    font-size: 0.88rem;
+    font-weight: 600;
+    box-shadow: none;
+    transform: none;
+}
+
+.calculator button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 14px rgba(37, 117, 252, 0.2);
+}
+
+.calculator .result {
+    opacity: 1;
+    min-height: 1.2rem;
+    font-size: 1rem;
+    border-radius: 10px;
+    background: #f4f5fb;
+}
+
+#gpaBreakdown {
+    border-radius: 10px;
+    background: #f8f7ff;
+}
+
+@media (min-width: 1024px) {
+    .calculator-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .planner-card {
+        grid-column: span 1;
+    }
+}
+
+@media (max-width: 768px) {
+    header {
+        padding: 0.2rem 0;
+    }
+
+    .header-container {
+        min-height: 44px;
+    }
+
+    .logo {
+        font-size: 1rem;
+    }
+
+    .mobile-toggle {
+        font-size: 1.2rem;
+    }
+
+    .calculator {
+        padding: 0.95rem;
+    }
+
+    .calculator h2 {
+        text-align: left;
+        font-size: 1.06rem;
+    }
+
+    .course,
+    .semester {
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+
+    .delete-btn {
+        justify-self: end;
+    }
+
+    .btn-row,
+    .btn-row-secondary {
+        grid-template-columns: 1fr;
     }
 }

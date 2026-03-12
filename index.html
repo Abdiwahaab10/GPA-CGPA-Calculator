@@ -62,41 +62,71 @@
 
     <!-- Calculator Section -->
     <section id="calculator" class="container">
-        <div class="calculator-grid"> <!-- Added Grid Container -->
+        <div class="calculator-grid">
             <div class="calculator">
                 <h2>Calculate Your GPA</h2>
                 <form id="gpaForm">
+                <label for="gradingScale">Grading Scale</label>
+                <select id="gradingScale">
+                    <option value="standard4">Standard 4.0 Scale</option>
+                    <option value="plusMinus">Plus/Minus Scale</option>
+                </select>
                 <div id="courses">
                     <div class="course">
                         <button type="button" class="delete-btn" onclick="deleteCourse(this)"><i class="fas fa-trash"></i></button>
                         <input type="number" placeholder="Percentage" min="0" max="100" required>
+                        <input type="number" placeholder="Credits" min="0.5" step="0.5" value="3" required>
                     </div>
                 </div>
-                <button type="button" onclick="addCourse()">Add Course</button>
-                <button type="submit">Calculate GPA</button>
-                <button type="button" id="clearBtn">Clear</button>
+                <div class="btn-row">
+                    <button type="button" onclick="addCourse()">Add Course</button>
+                    <button type="submit">Calculate GPA</button>
+                    <button type="button" id="clearBtn">Clear</button>
+                </div>
+                <div class="btn-row btn-row-secondary">
+                    <button type="button" id="exportPdfBtn">Export PDF</button>
+                    <button type="button" id="exportExcelBtn">Export Excel</button>
+                </div>
                 <div class="result" id="gpaResult"></div>
-                <div id="message"></div>
+                <div id="gpaBreakdown"></div>
             </form>
         </div>
 
         <!-- CGPA Calculator -->
-        <div class="calculator" style="margin-top: 2rem;">
+        <div class="calculator">
             <h2>Calculate Your CGPA</h2>
             <form id="cgpaForm">
                 <div id="semesters">
                     <div class="semester">
                         <button type="button" class="delete-btn" onclick="deleteSemester(this)"><i class="fas fa-trash"></i></button>
                         <input type="number" placeholder="GPA for Semester 1" min="0" max="4" step="0.01" required>
+                        <input type="number" placeholder="Semester Credits" min="1" step="1" value="15" required>
                     </div>
                 </div>
-                <button type="button" onclick="addSemester()">Add Semester</button>
-                <button type="submit">Calculate CGPA</button>
-                <button type="button" id="clearCgpaBtn">Clear</button> <!-- Added Clear Button -->
-                    <div class="result" id="cgpaResult"></div>
+                <div class="btn-row">
+                    <button type="button" onclick="addSemester()">Add Semester</button>
+                    <button type="submit">Calculate CGPA</button>
+                    <button type="button" id="clearCgpaBtn">Clear</button>
+                </div>
+                <div class="result" id="cgpaResult"></div>
                 </form>
             </div>
-        </div> <!-- Closed Grid Container -->
+
+            <div class="calculator planner-card">
+                <h2>Target CGPA Planner</h2>
+                <form id="plannerForm" class="planner-form-grid">
+                    <input type="number" id="currentCgpa" placeholder="Current CGPA" min="0" max="4" step="0.01" required>
+                    <input type="number" id="completedCredits" placeholder="Completed Credits" min="1" step="1" required>
+                    <input type="number" id="upcomingCredits" placeholder="Upcoming Credits" min="1" step="1" required>
+                    <input type="number" id="targetCgpa" placeholder="Target CGPA" min="0" max="4" step="0.01" required>
+                    <div class="btn-row">
+                        <button type="submit">Calculate Required GPA</button>
+                        <button type="button" id="clearPlannerBtn">Clear</button>
+                    </div>
+                    <div class="result" id="plannerResult"></div>
+                </form>
+            </div>
+        </div>
     </section>
 
     <!-- Features Section -->
