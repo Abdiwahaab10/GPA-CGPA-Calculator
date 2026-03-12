@@ -277,13 +277,24 @@ nav ul li a:hover::after {
 /* Apply two columns on wider screens */
 @media (min-width: 768px) {
     .calculator-grid {
-        grid-template-columns: repeat(2, 1fr); /* Two equal columns */
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
     /* Remove the inline style margin-top from the second calculator if it exists */
     .calculator-grid > .calculator:nth-child(2) {
        margin-top: 0 !important; /* Override inline style */
     }
 }
+
+@media (min-width: 1080px) {
+    .calculator-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .planner-card {
+        grid-column: span 1;
+    }
+}
+
 
 
 .calculator h2 {
@@ -436,6 +447,46 @@ nav ul li a:hover::after {
     animation: result-appear 0.5s ease forwards;
 }
 
+
+
+.calculator select,
+.calculator input[type="number"] {
+    width: 100%;
+}
+
+.calculator label {
+    display: block;
+    margin-bottom: 0.4rem;
+    font-weight: 600;
+    color: #444;
+}
+
+.calculator select {
+    padding: 0.5rem 0.75rem;
+    margin-bottom: 0.7rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    background: #fff;
+}
+
+#gpaBreakdown {
+    margin-top: 0.8rem;
+    font-size: 0.9rem;
+    color: #444;
+    background: #f8f8ff;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 0.75rem;
+}
+
+#gpaBreakdown ul {
+    margin-left: 1rem;
+}
+
+.planner-card {
+    grid-column: 1 / -1;
+}
 
 /* Features Section */
 .features {
@@ -1130,5 +1181,171 @@ footer {
 
     .cta-button, .secondary-button {
         padding: 0.7rem 1.2rem;
+    }
+}
+
+/* ===== Modern UI Refresh ===== */
+header {
+    height: auto;
+    padding: 0.9rem 0;
+    backdrop-filter: blur(6px);
+}
+
+.header-container {
+    height: auto;
+    min-height: 56px;
+}
+
+.hero {
+    min-height: clamp(70vh, 88vh, 100vh);
+    padding: clamp(5rem, 9vw, 7rem) 0 clamp(3rem, 6vw, 4rem);
+}
+
+.hero h1 {
+    font-size: clamp(2rem, 4.2vw, 3.5rem);
+}
+
+.hero p {
+    font-size: clamp(1rem, 1.8vw, 1.2rem);
+}
+
+#calculator {
+    margin-top: 1rem;
+}
+
+.section-heading {
+    max-width: 760px;
+    margin: 0 auto 1.5rem;
+    text-align: center;
+}
+
+.section-heading h2 {
+    font-size: clamp(1.8rem, 3vw, 2.4rem);
+    margin-bottom: 0.5rem;
+    color: #171c2d;
+}
+
+.section-heading p {
+    color: #5a6078;
+    font-size: 1rem;
+}
+
+.calculator-grid {
+    gap: 1rem;
+}
+
+.calculator {
+    border: 1px solid #ecebff;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(57, 46, 143, 0.08);
+}
+
+.calculator h3 {
+    font-family: 'Merriweather', serif;
+    font-size: 1.35rem;
+    margin-bottom: 1rem;
+    color: #1f2554;
+}
+
+.calculator select,
+.calculator input[type="number"] {
+    border: 1px solid #dcdff5;
+    border-radius: 10px;
+    padding: 0.65rem 0.8rem;
+    background: #fff;
+}
+
+.course,
+.semester {
+    display: grid;
+    grid-template-columns: auto 1fr 1fr;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.delete-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: #f6f2ff;
+    color: #7d3af2;
+}
+
+.delete-btn:hover {
+    background: #ffe9ef;
+}
+
+.button-row {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.6rem;
+    margin-top: 0.8rem;
+}
+
+.secondary-actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.calculator button {
+    border-radius: 10px;
+    font-weight: 600;
+    min-height: 42px;
+}
+
+#gpaResult,
+#cgpaResult,
+#plannerResult {
+    background: #f6f7ff;
+    border: 1px solid #e0e3ff;
+    color: #2a2f55;
+}
+
+#gpaBreakdown {
+    margin-top: 0.8rem;
+    background: #fafbff;
+    border: 1px solid #e7e9f8;
+}
+
+@media (max-width: 1080px) {
+    .calculator-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .planner-card {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 0 1rem;
+    }
+
+    .hero-buttons {
+        grid-template-columns: 1fr;
+        max-width: 320px;
+    }
+
+    .calculator-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .course,
+    .semester {
+        grid-template-columns: auto 1fr;
+    }
+
+    .course input:nth-of-type(2),
+    .semester input:nth-of-type(2) {
+        grid-column: 2;
+    }
+
+    .button-row,
+    .secondary-actions {
+        grid-template-columns: 1fr;
+    }
+
+    nav ul {
+        width: min(82vw, 340px);
     }
 }

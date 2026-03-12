@@ -62,41 +62,82 @@
 
     <!-- Calculator Section -->
     <section id="calculator" class="container">
-        <div class="calculator-grid"> <!-- Added Grid Container -->
-            <div class="calculator">
-                <h2>Calculate Your GPA</h2>
-                <form id="gpaForm">
-                <div id="courses">
-                    <div class="course">
-                        <button type="button" class="delete-btn" onclick="deleteCourse(this)"><i class="fas fa-trash"></i></button>
-                        <input type="number" placeholder="Percentage" min="0" max="100" required>
-                    </div>
-                </div>
-                <button type="button" onclick="addCourse()">Add Course</button>
-                <button type="submit">Calculate GPA</button>
-                <button type="button" id="clearBtn">Clear</button>
-                <div class="result" id="gpaResult"></div>
-                <div id="message"></div>
-            </form>
+        <div class="section-heading">
+            <h2>Smart GPA Toolkit</h2>
+            <p>Calculate weighted GPA/CGPA, plan your target, and keep your progress organized in one place.</p>
         </div>
 
-        <!-- CGPA Calculator -->
-        <div class="calculator" style="margin-top: 2rem;">
-            <h2>Calculate Your CGPA</h2>
-            <form id="cgpaForm">
-                <div id="semesters">
-                    <div class="semester">
-                        <button type="button" class="delete-btn" onclick="deleteSemester(this)"><i class="fas fa-trash"></i></button>
-                        <input type="number" placeholder="GPA for Semester 1" min="0" max="4" step="0.01" required>
+        <div class="calculator-grid">
+            <article class="calculator">
+                <h3>Calculate Your GPA</h3>
+                <form id="gpaForm">
+                    <label for="gradingScale">Grading Scale</label>
+                    <select id="gradingScale">
+                        <option value="standard4">Standard 4.0 Scale</option>
+                        <option value="plusMinus">Plus/Minus Scale</option>
+                    </select>
+
+                    <div id="courses">
+                        <div class="course">
+                            <button type="button" class="delete-btn" onclick="deleteCourse(this)" aria-label="Delete course"><i class="fas fa-trash"></i></button>
+                            <input type="number" placeholder="Percentage" min="0" max="100" required>
+                            <input type="number" placeholder="Credits" min="0.5" step="0.5" value="3" required>
+                        </div>
                     </div>
-                </div>
-                <button type="button" onclick="addSemester()">Add Semester</button>
-                <button type="submit">Calculate CGPA</button>
-                <button type="button" id="clearCgpaBtn">Clear</button> <!-- Added Clear Button -->
+
+                    <div class="button-row">
+                        <button type="button" onclick="addCourse()">Add Course</button>
+                        <button type="submit">Calculate GPA</button>
+                        <button type="button" id="clearBtn">Clear</button>
+                    </div>
+                    <div class="button-row secondary-actions">
+                        <button type="button" id="exportPdfBtn">Export PDF</button>
+                        <button type="button" id="exportExcelBtn">Export Excel</button>
+                    </div>
+
+                    <div class="result" id="gpaResult"></div>
+                    <div id="gpaBreakdown"></div>
+                </form>
+            </article>
+
+            <article class="calculator">
+                <h3>Calculate Your CGPA</h3>
+                <form id="cgpaForm">
+                    <div id="semesters">
+                        <div class="semester">
+                            <button type="button" class="delete-btn" onclick="deleteSemester(this)" aria-label="Delete semester"><i class="fas fa-trash"></i></button>
+                            <input type="number" placeholder="GPA for Semester 1" min="0" max="4" step="0.01" required>
+                            <input type="number" placeholder="Semester Credits" min="1" step="1" value="15" required>
+                        </div>
+                    </div>
+
+                    <div class="button-row">
+                        <button type="button" onclick="addSemester()">Add Semester</button>
+                        <button type="submit">Calculate CGPA</button>
+                        <button type="button" id="clearCgpaBtn">Clear</button>
+                    </div>
+
                     <div class="result" id="cgpaResult"></div>
                 </form>
-            </div>
-        </div> <!-- Closed Grid Container -->
+            </article>
+
+            <article class="calculator planner-card">
+                <h3>Target CGPA Planner</h3>
+                <form id="plannerForm" class="planner-form">
+                    <input type="number" id="currentCgpa" placeholder="Current CGPA" min="0" max="4" step="0.01" required>
+                    <input type="number" id="completedCredits" placeholder="Completed Credits" min="1" step="1" required>
+                    <input type="number" id="upcomingCredits" placeholder="Upcoming Credits" min="1" step="1" required>
+                    <input type="number" id="targetCgpa" placeholder="Target CGPA" min="0" max="4" step="0.01" required>
+
+                    <div class="button-row">
+                        <button type="submit">Calculate Required GPA</button>
+                        <button type="button" id="clearPlannerBtn">Clear</button>
+                    </div>
+
+                    <div class="result" id="plannerResult"></div>
+                </form>
+            </article>
+        </div>
     </section>
 
     <!-- Features Section -->
