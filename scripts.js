@@ -162,7 +162,11 @@ function loadGpaData() {
         addCourse();
     } else {
         savedCourses.forEach(course => {
-            addCourse(course.percentage || '', course.credits || '3');
+            if (typeof course === 'string' || typeof course === 'number') {
+                addCourse(String(course), '3');
+                return;
+            }
+            addCourse(course?.percentage || '', course?.credits || '3');
         });
     }
 
@@ -275,7 +279,11 @@ function loadCgpaData() {
         addSemester();
     } else {
         savedSemesters.forEach(semester => {
-            addSemester(semester.gpa || '', semester.credits || '15');
+            if (typeof semester === 'string' || typeof semester === 'number') {
+                addSemester(String(semester), '15');
+                return;
+            }
+            addSemester(semester?.gpa || '', semester?.credits || '15');
         });
     }
 
@@ -333,7 +341,6 @@ function clearPlannerForm() {
 
 function getGradePoint(percentage, scale = 'standard4') {
     if (scale === 'plusMinus') {
-        if (percentage >= 97) return 4.0;
         if (percentage >= 93) return 4.0;
         if (percentage >= 90) return 3.7;
         if (percentage >= 87) return 3.3;
@@ -368,6 +375,11 @@ function exportGpaPdf() {
         return;
     }
 
+    if (!window.jspdf || !window.jspdf.jsPDF) {
+        alert('PDF export is currently unavailable. Please refresh and try again.');
+        return;
+    }
+
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
     doc.setFontSize(16);
@@ -381,6 +393,11 @@ function exportGpaPdf() {
 }
 
 function exportGpaExcel() {
+    if (typeof XLSX === 'undefined' || !XLSX || !XLSX.utils) {
+        alert('Excel export is currently unavailable. Please refresh and try again.');
+        return;
+    }
+
     const courseRows = document.querySelectorAll('#courses .course');
     const rows = [];
 

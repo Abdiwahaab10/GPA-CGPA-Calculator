@@ -53,7 +53,7 @@ img {
 header {
     background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
     color: white;
-    padding: 0.75rem 0;
+    padding: 0.35rem 0;
     position: sticky;
     top: 0;
     z-index: 100;
@@ -64,25 +64,25 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    min-height: 56px;
+    min-height: 48px;
 }
 
 .logo {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    font-size: 1.5rem;
+    font-size: 1.15rem;
     font-weight: 700;
 }
 
 .logo i {
-    font-size: 1.8rem;
+    font-size: 1.2rem;
 }
 
 nav ul {
     display: flex;
     list-style: none;
-    gap: 2rem;
+    gap: 1.25rem;
 }
 
 nav ul li a {
@@ -258,11 +258,11 @@ nav ul li a:hover::after {
 
 /* Calculator Section - Compact Redesign */
 .calculator {
-    background: linear-gradient(180deg, #ffffff 0%, #faf7ff 100%);
-    padding: 1.5rem;
-    border-radius: 16px;
-    border: 1px solid rgba(106, 17, 203, 0.12);
-    box-shadow: 0 14px 34px rgba(22, 16, 55, 0.08);
+    background: #ffffff;
+    padding: 1.1rem;
+    border-radius: 14px;
+    border: 1px solid #ebeaf3;
+    box-shadow: 0 8px 24px rgba(34, 22, 80, 0.08);
     margin-top: 0;
 }
 
@@ -285,21 +285,9 @@ nav ul li a:hover::after {
     }
 }
 
-@media (min-width: 1080px) {
-    .calculator-grid {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-
-    .planner-card {
-        grid-column: span 1;
-    }
-}
-
-
-
 .calculator h2 {
-    font-size: 1.4rem;
-    margin-bottom: 1rem;
+    font-size: 1.15rem;
+    margin-bottom: 0.75rem;
     color: #333;
     text-align: left;
 }
@@ -311,11 +299,11 @@ nav ul li a:hover::after {
 
 .calculator input[type="number"] { /* More specific selector */
     width: 100%;
-    padding: 0.5rem 0.75rem; /* Reduced padding */
+    padding: 0.6rem 0.75rem; /* Reduced padding */
     margin-bottom: 0.5rem; /* Reduced margin */
     border: 1px solid #dad6e6;
-    border-radius: 6px; /* Slightly smaller radius */
-    font-size: 0.9rem; /* Reduced font size */
+    border-radius: 10px; /* Slightly smaller radius */
+    font-size: 0.92rem; /* Reduced font size */
     transition: border-color 0.3s ease;
     box-sizing: border-box; /* Ensure padding is included in width */
 }
@@ -391,8 +379,8 @@ nav ul li a:hover::after {
     color: white;
     border: none;
     padding: 0.5rem 1rem; /* Reduced padding */
-    border-radius: 6px; /* Slightly smaller radius */
-    font-size: 0.9rem; /* Reduced font size */
+    border-radius: 10px; /* Slightly smaller radius */
+    font-size: 0.92rem; /* Reduced font size */
     cursor: pointer;
     transition: background 0.3s ease;
     min-width: 100px;
@@ -758,7 +746,7 @@ nav ul li a:hover::after {
 }
 
 .blog-post h3 {
-    font-size: 1.4rem;
+    font-size: 1.15rem;
     margin-bottom: 0.8rem;
     line-height: 1.4;
     color: #333;
@@ -1077,6 +1065,17 @@ footer {
     filter: brightness(0) invert(1);
 }
 
+
+@media (min-width: 1024px) {
+    .calculator-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .planner-card {
+        grid-column: span 1;
+    }
+}
+
 /* Media Queries for Responsiveness */
 @media (max-width: 992px) {
     .hero h1 {
@@ -1103,7 +1102,7 @@ footer {
 @media (max-width: 768px) {
     .header-container {
         position: relative; /* Add position relative for absolute positioning context */
-        padding: 0.25rem 1rem; /* Add padding for better spacing */
+        padding: 0.2rem 1rem; /* Add padding for better spacing */
     }
 
     .mobile-toggle {
@@ -1158,12 +1157,12 @@ footer {
     }
 
     .calculator {
-        padding: 1.1rem;
+        padding: 0.95rem;
     }
 
     .calculator h2 {
         text-align: center;
-        font-size: 1.2rem;
+        font-size: 1.06rem;
     }
 
     .course,
@@ -1230,169 +1229,3 @@ footer {
 }
 
 
-/* ===== UI HOTFIX: clean header + calculator redesign ===== */
-header {
-    padding: 0.35rem 0;
-}
-
-.header-container {
-    min-height: 48px;
-}
-
-.logo {
-    font-size: 1.15rem;
-}
-
-.logo i {
-    font-size: 1.2rem;
-}
-
-nav ul {
-    align-items: center;
-    gap: 1.25rem;
-}
-
-#calculator {
-    scroll-margin-top: 90px;
-}
-
-.calculator-grid {
-    gap: 1rem;
-}
-
-.calculator {
-    background: #ffffff;
-    border: 1px solid #ebeaf3;
-    box-shadow: 0 8px 24px rgba(34, 22, 80, 0.08);
-    border-radius: 14px;
-    padding: 1.1rem;
-}
-
-.calculator h2 {
-    font-size: 1.15rem;
-    text-align: left;
-    margin-bottom: 0.75rem;
-}
-
-.calculator label {
-    font-size: 0.88rem;
-    color: #5e5b6b;
-}
-
-.course,
-.semester {
-    gap: 0.45rem;
-    margin-bottom: 0.6rem;
-}
-
-.course input[type="number"],
-.semester input[type="number"],
-.calculator select,
-.calculator input[type="number"] {
-    font-size: 0.92rem;
-    border-radius: 10px;
-    padding: 0.6rem 0.75rem;
-    border: 1px solid #ddd9eb;
-    background: #fbfbff;
-}
-
-.calculator input[type="number"]:focus,
-.calculator select:focus {
-    outline: none;
-    border-color: #6a11cb;
-    box-shadow: 0 0 0 3px rgba(106, 17, 203, 0.12);
-    background: #fff;
-}
-
-.delete-btn {
-    background: #fff1f3;
-    border: 1px solid #ffd5dc;
-    color: #c53030;
-    border-radius: 10px;
-    padding: 0.45rem;
-    order: 0;
-}
-
-.btn-row {
-    margin-top: 0.55rem;
-    gap: 0.5rem;
-}
-
-.calculator button {
-    border-radius: 10px;
-    padding: 0.62rem 0.8rem;
-    font-size: 0.88rem;
-    font-weight: 600;
-    box-shadow: none;
-    transform: none;
-}
-
-.calculator button:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 6px 14px rgba(37, 117, 252, 0.2);
-}
-
-.calculator .result {
-    opacity: 1;
-    min-height: 1.2rem;
-    font-size: 1rem;
-    border-radius: 10px;
-    background: #f4f5fb;
-}
-
-#gpaBreakdown {
-    border-radius: 10px;
-    background: #f8f7ff;
-}
-
-@media (min-width: 1024px) {
-    .calculator-grid {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-
-    .planner-card {
-        grid-column: span 1;
-    }
-}
-
-@media (max-width: 768px) {
-    header {
-        padding: 0.2rem 0;
-    }
-
-    .header-container {
-        min-height: 44px;
-    }
-
-    .logo {
-        font-size: 1rem;
-    }
-
-    .mobile-toggle {
-        font-size: 1.2rem;
-    }
-
-    .calculator {
-        padding: 0.95rem;
-    }
-
-    .calculator h2 {
-        text-align: left;
-        font-size: 1.06rem;
-    }
-
-    .course,
-    .semester {
-        display: grid;
-        grid-template-columns: 1fr;
-    }
-
-    .delete-btn {
-        justify-self: end;
-    }
-
-    .btn-row,
-    .btn-row-secondary {
-        grid-template-columns: 1fr;
-    }
-}
