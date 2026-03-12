@@ -38,15 +38,22 @@
         </div>
     </header>
 
+    <!-- Mobile nav overlay -->
+    <div class="nav-overlay" id="navOverlay"></div>
+
     <!-- Hero Section -->
     <section class="hero">
         <div class="container hero-content">
-            <h1>GPA & CGPA Calculator</h1>
+            <h1>GPA &amp; CGPA Calculator</h1>
             <p>Easily calculate your GPA and CGPA for multiple semesters with our intuitive and modern tool.</p>
             <div class="hero-buttons">
                 <a href="#calculator" class="cta-button">Get Started <i class="fas fa-arrow-right"></i></a>
                 <a href="blogs/blog.html" class="secondary-button">Read Blog</a>
             </div>
+        </div>
+        <div class="hero-scroll-indicator" aria-hidden="true">
+            <i class="fas fa-chevron-down"></i>
+            <span>Scroll</span>
         </div>
     </section>
 
@@ -352,13 +359,27 @@
         const mobileToggle = document.querySelector('.mobile-toggle');
         const closeMenu = document.querySelector('.close-menu');
         const navLinks = document.querySelector('nav ul');
+        const navOverlay = document.getElementById('navOverlay');
 
-        mobileToggle.addEventListener('click', () => {
+        function openMenu() {
             navLinks.classList.add('active');
-        });
+            navOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
 
-        closeMenu.addEventListener('click', () => {
+        function closeMenuFn() {
             navLinks.classList.remove('active');
+            navOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        mobileToggle.addEventListener('click', openMenu);
+        closeMenu.addEventListener('click', closeMenuFn);
+        navOverlay.addEventListener('click', closeMenuFn);
+
+        // Close menu when a nav link is clicked
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', closeMenuFn);
         });
     </script>
 </body>
