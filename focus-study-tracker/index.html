@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Focus & Study Tracker App</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="app-container">
+    <header class="app-header">
+      <h1>Focus &amp; Study Tracker</h1>
+      <p class="motivation">Small progress daily = Big success</p>
+    </header>
+
+    <section class="card" id="pomodoro-section">
+      <h2>Pomodoro Timer</h2>
+      <p class="timer-display" id="timer-display">45:00</p>
+      <div class="timer-controls">
+        <button id="start-btn">Start</button>
+        <button id="pause-btn">Pause</button>
+        <button id="reset-btn">Reset</button>
+      </div>
+    </section>
+
+    <section class="card" id="tasks-section">
+      <h2>Daily Task List</h2>
+      <form id="task-form">
+        <label for="task-input">Add a task</label>
+        <input id="task-input" type="text" placeholder="Study OSI Model" required />
+        <button type="submit">Add Task</button>
+      </form>
+      <ul id="task-list"></ul>
+    </section>
+
+    <section class="card" id="no-zero-days-section">
+      <h2>NO ZERO DAYS</h2>
+      <p>Today's status: <strong id="today-status">NOT DONE</strong></p>
+      <p>Current streak: <strong id="streak-count">Day 0</strong></p>
+    </section>
+
+    <section class="card" id="progress-section">
+      <h2>Progress Tracker</h2>
+      <p>Total completed tasks: <strong id="completed-count">0</strong></p>
+      <div class="progress-bar-bg" aria-label="Progress bar background">
+        <div class="progress-bar-fill" id="progress-bar-fill" style="width: 0%;"></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
